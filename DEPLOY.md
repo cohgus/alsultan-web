@@ -1,5 +1,5 @@
 # Al Sultan - Centro de Comando
-## Guia de Deploy para Cloudflare Pages
+## Guia de Deploy para Hostinger
 
 ### Estrutura do Projeto
 
@@ -14,13 +14,22 @@ docs/web/
 │   └── js/
 │       ├── config.js   # Configuracoes do sistema
 │       └── auth.js     # Modulo de autenticacao
+├── .github/
+│   └── workflows/
+│       └── deploy.yml  # GitHub Actions para deploy automatico
 └── DEPLOY.md           # Este arquivo
 ```
 
-### Pre-requisitos
+### Dados do Hosting
 
-1. **Conta Cloudflare** com dominio `alsultan.tech` configurado
-2. **Projeto Google Cloud** com OAuth 2.0 configurado
+| Item | Valor |
+|------|-------|
+| **Provedor** | Hostinger Premium Web Hosting |
+| **Servidor** | 46.202.145.166 |
+| **Usuario** | u688592187 |
+| **Diretorio** | /home/u688592187/domains/alsultan.tech/public_html |
+| **SFTP Port** | 65002 |
+| **FTP Port** | 21 |
 
 ---
 
@@ -29,19 +38,17 @@ docs/web/
 ### 1.1 Criar Credencial OAuth
 
 1. Acesse [Google Cloud Console](https://console.cloud.google.com/)
-2. Crie um novo projeto ou selecione existente
+2. Selecione o projeto: `clever-overview-388203`
 3. Navegue para **APIs & Services > Credentials**
-4. Clique em **Create Credentials > OAuth client ID**
-5. Selecione **Web application**
-6. Configure:
-   - **Name**: Al Sultan Centro de Comando
+4. Selecione o OAuth Client **bialsultan** ou crie novo
+5. Configure:
    - **Authorized JavaScript origins**:
      - `https://alsultan.tech`
+     - `https://bi.alsultan.tech`
      - `http://localhost:8080` (para desenvolvimento)
    - **Authorized redirect URIs**:
-     - `https://alsultan.tech`
-     - `http://localhost:8080`
-7. Copie o **Client ID** gerado
+     - `https://bi.alsultan.tech/auth/google`
+6. Copie o **Client ID** gerado
 
 ### 1.2 Atualizar Configuracao
 
@@ -49,53 +56,96 @@ Edite `assets/js/config.js`:
 
 ```javascript
 google: {
-    clientId: 'SEU_CLIENT_ID_AQUI.apps.googleusercontent.com',
+    clientId: '570315449710-tcffq3hslg94jtqsu5kunrde3sn06821.apps.googleusercontent.com',
     allowedDomains: ['alsultan.com.br', 'aibotize.com'],
-    allowedEmails: ['cohgus@gmail.com']
+    allowedEmails: ['cohgus@gmail.com', 'sdcbettega@gmail.com']
 }
 ```
 
-Atualize tambem `login.html` na linha do `GOOGLE_CLIENT_ID`.
+---
+
+## 2. Deploy Automatico via GitHub Actions
+
+### 2.1 Configurar Secrets no GitHub
+
+1. Acesse https://github.com/cohgus/alsultan-web/settings/secrets/actions
+2. Adicione os seguintes secrets:
+
+| Secret | Valor |
+|--------|-------|
+| `FTP_USERNAME` | `u688592187` |
+| `FTP_PASSWORD` | *(senha FTP do painel Hostinger)* |
+
+### 2.2 Obter Senha FTP
+
+1. Acesse [Hostinger hPanel](https://hpanel.hostinger.com/)
+2. Va em **Websites** > `alsultan.tech` > **Dashboard**
+3. No menu lateral, clique em **FTP Accounts**
+4. Copie ou redefina a senha do usuario principal
+
+### 2.3 Deploy Automatico
+
+O deploy ocorre automaticamente a cada push na branch `main`:
+
+```bash
+git add .
+git commit -m "Update site"
+git push origin main
+```
+
+### 2.4 Deploy Manual
+
+Tambem e possivel disparar deploy manual:
+1. Acesse https://github.com/cohgus/alsultan-web/actions
+2. Selecione "Deploy to Hostinger"
+3. Clique em "Run workflow"
 
 ---
 
-## 2. Deploy no Cloudflare Pages
+## 3. Deploy Manual via SFTP
 
-### 2.1 Via Dashboard Cloudflare
+### 3.1 Usando FileZilla
 
-1. Acesse [Cloudflare Dashboard](https://dash.cloudflare.com/)
-2. Navegue para **Pages**
-3. Clique em **Create a project**
-4. Escolha **Direct Upload**
-5. Arraste a pasta `docs/web/` para upload
-6. Configure o projeto:
-   - **Project name**: alsultan-centro-comando
-   - **Production branch**: main
-7. Clique em **Deploy**
+1. Baixe [FileZilla](https://filezilla-project.org/)
+2. Configure conexao:
+   - **Host**: `sftp://46.202.145.166`
+   - **Port**: `65002`
+   - **Username**: `u688592187`
+   - **Password**: *(senha do painel)*
+3. Navegue ate `/domains/alsultan.tech/public_html`
+4. Faca upload dos arquivos
 
-### 2.2 Configurar Dominio Customizado
+### 3.2 Usando linha de comando
 
-1. Apos deploy, va em **Custom domains**
-2. Adicione `alsultan.tech`
-3. Cloudflare configurara DNS automaticamente
+```bash
+# SFTP
+sftp -P 65002 u688592187@46.202.145.166
 
-### 2.3 Configurar Redirecionamentos
-
-Crie um arquivo `_redirects` na raiz:
-
-```
-# Redirecionar www para apex
-https://www.alsultan.tech/* https://alsultan.tech/:splat 301
-
-# SPA fallback (se necessario)
-/*    /index.html   200
+# Dentro do SFTP
+cd /domains/alsultan.tech/public_html
+put -r ./*
 ```
 
 ---
 
-## 3. Desenvolvimento Local
+## 4. Deploy via Git (Painel Hostinger)
 
-### 3.1 Servidor Local
+### 4.1 Configurar Git no Hostinger
+
+1. Acesse [Hostinger hPanel](https://hpanel.hostinger.com/)
+2. Va em **Websites** > `alsultan.tech` > **Dashboard**
+3. No menu lateral: **Advanced** > **Git**
+4. Configure:
+   - **Repository URL**: `https://github.com/cohgus/alsultan-web.git`
+   - **Branch**: `main`
+   - **Auto-deploy**: Ativado
+5. Clique em **Create**
+
+---
+
+## 5. Desenvolvimento Local
+
+### 5.1 Servidor Local
 
 ```bash
 # Usando Python
@@ -106,62 +156,58 @@ python -m http.server 8080
 npx serve docs/web -p 8080
 ```
 
-### 3.2 Modo Demo
+### 5.2 Modo Demo
 
 O sistema possui modo demo automatico quando OAuth nao esta configurado.
 Clique em "Entrar com Google" para acessar com usuario demo.
 
 ---
 
-## 4. Seguranca
+## 6. DNS e SSL
 
-### 4.1 Content Security Policy
+### 6.1 DNS (Hostinger)
 
-Adicione headers de seguranca no Cloudflare:
+O DNS ja esta configurado automaticamente na Hostinger:
 
-```
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://accounts.google.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://accounts.google.com https://www.googleapis.com;
-```
+| Tipo | Nome | Valor | TTL |
+|------|------|-------|-----|
+| A | @ | 46.202.145.166 | 1800 |
+| AAAA | @ | 2a02:4780:13:1943:0:290b:153b:4 | 1800 |
+| CNAME | www | alsultan.tech. | 300 |
+| A | ftp | 46.202.145.166 | 1800 |
 
-### 4.2 Restricao de Acesso
+### 6.2 SSL
+
+A Hostinger configura SSL automaticamente via Let's Encrypt.
+Se necessario, force HTTPS no hPanel:
+**Websites** > `alsultan.tech` > **Security** > **SSL** > **Force HTTPS**
+
+---
+
+## 7. Seguranca
+
+### 7.1 Restricao de Acesso
 
 O sistema ja valida:
 - Dominios de email autorizados
 - Emails especificos na whitelist
 - Sessao com expiracao de 24h
 
----
-
-## 5. Manutencao
-
-### 5.1 Atualizar Manuais
-
-Os manuais estao em `../bi/tutorials/`. Atualize os HTMLs e faca novo deploy.
-
-### 5.2 Adicionar Usuarios
+### 7.2 Usuarios Autorizados
 
 Edite `assets/js/config.js`:
 
 ```javascript
 allowedEmails: [
     'cohgus@gmail.com',
+    'sdcbettega@gmail.com',
     'novo.usuario@email.com'  // Adicionar aqui
-]
-```
-
-### 5.3 Adicionar Dominios
-
-```javascript
-allowedDomains: [
-    'alsultan.com.br',
-    'aibotize.com',
-    'novodominio.com.br'  // Adicionar aqui
 ]
 ```
 
 ---
 
-## 6. Troubleshooting
+## 8. Troubleshooting
 
 ### OAuth nao funciona
 
@@ -169,11 +215,17 @@ allowedDomains: [
 2. Confirme origens autorizadas no Google Console
 3. Verifique console do navegador para erros
 
-### Pagina nao carrega
+### Deploy falha no GitHub Actions
 
-1. Verifique se arquivos foram uploadados corretamente
-2. Confirme DNS esta propagado
-3. Limpe cache do Cloudflare
+1. Verifique se os secrets `FTP_USERNAME` e `FTP_PASSWORD` estao configurados
+2. Confira logs do workflow em Actions
+3. Teste conexao FTP manualmente
+
+### Site nao carrega
+
+1. Verifique propagacao DNS: `nslookup alsultan.tech`
+2. Confirme SSL esta ativo no Hostinger
+3. Verifique arquivos em `/domains/alsultan.tech/public_html`
 
 ### Sessao expira rapidamente
 
