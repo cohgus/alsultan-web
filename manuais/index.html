@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Sultan | Manuais e Documentacao</title>
+    <meta name="description" content="Central de manuais e documentacao do sistema Al Sultan BI.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sultan: {
+                            dark: '#0a1a0a',
+                            green: '#0d2d0d',
+                            emerald: '#1a4d1a',
+                            gold: '#d4af37',
+                            goldLight: '#f0d77a',
+                            cream: '#faf8f5',
+                            sand: '#e8e4dc'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #0a1a0a 0%, #0d2d0d 100%);
+            color: #faf8f5;
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(13, 45, 13, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(13, 45, 13, 0.6);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .manual-card {
+            background: linear-gradient(135deg, rgba(13, 45, 13, 0.5) 0%, rgba(10, 26, 10, 0.7) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .manual-card:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(212, 175, 55, 0.15);
+        }
+
+        .decorative-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a1a0a; }
+        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Auth Check -->
+    <script>
+        (function() {
+            const user = localStorage.getItem('alsultan_user');
+            if (!user) {
+                window.location.href = '../login.html';
+                return;
+            }
+        })();
+    </script>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-10 bg-sultan-dark/80 backdrop-blur-lg border-b border-sultan-gold/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="flex items-center gap-2 text-sultan-cream/60 hover:text-sultan-cream transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="text-sm">Voltar</span>
+                </a>
+                <span class="text-sultan-cream/30">|</span>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-sultan-gold/20 flex items-center justify-center">
+                        <i class="fas fa-book text-sultan-gold text-sm"></i>
+                    </div>
+                    <div>
+                        <div class="font-display text-lg font-bold text-sultan-cream">Manuais</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-xs text-sultan-cream/40">
+                Al Sultan | Centro de Comando
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-6xl mx-auto px-6 py-12">
+
+        <!-- HEADER -->
+        <section class="text-center mb-12">
+            <h1 class="font-display text-3xl md:text-4xl font-bold text-sultan-cream mb-4">
+                Central de Documentacao
+            </h1>
+            <p class="text-lg text-sultan-cream/60 max-w-2xl mx-auto">
+                Selecione o manual adequado ao seu perfil para aprender a utilizar
+                o sistema de Business Intelligence Al Sultan.
+            </p>
+        </section>
+
+        <div class="decorative-line w-full max-w-xs mx-auto mb-12"></div>
+
+        <!-- MANUAIS GRID -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+
+            <!-- Manual Geral -->
+            <a href="../../bi/tutorials/MANUAL-GERAL-BI.html" target="_blank"
+               class="manual-card p-8 rounded-2xl block group">
+                <div class="flex items-start gap-5">
+                    <div class="w-16 h-16 rounded-xl bg-sultan-gold/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-book text-sultan-gold text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded-full bg-sultan-gold/20 text-sultan-gold text-[10px] uppercase tracking-wider">
+                                Para Todos
+                            </span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                            Manual Geral BI
+                        </h3>
+                        <p class="text-sm text-sultan-cream/60 mb-4">
+                            Guia completo de introducao ao sistema. Aprenda a navegar pelos dashboards,
+                            usar filtros, exportar dados e entender os principais indicadores.
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-sultan-cream/50">
+                            <span><i class="fas fa-clock mr-1"></i> 15 min leitura</span>
+                            <span><i class="fas fa-layer-group mr-1"></i> Nivel: Basico</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                    <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
+                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                        Abrir Manual
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Manual Diretoria -->
+            <a href="../../bi/tutorials/MANUAL-DIRETORIA-BI.html" target="_blank"
+               class="manual-card p-8 rounded-2xl block group">
+                <div class="flex items-start gap-5">
+                    <div class="w-16 h-16 rounded-xl bg-blue-900/40 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-crown text-blue-300 text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[10px] uppercase tracking-wider">
+                                Diretoria
+                            </span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                            Manual Diretoria
+                        </h3>
+                        <p class="text-sm text-sultan-cream/60 mb-4">
+                            Visao executiva do sistema. Foco em DRE gerencial, indicadores estrategicos,
+                            comparativos entre filiais e tomada de decisao.
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-sultan-cream/50">
+                            <span><i class="fas fa-clock mr-1"></i> 20 min leitura</span>
+                            <span><i class="fas fa-layer-group mr-1"></i> Nivel: Estrategico</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                    <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
+                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                        Abrir Manual
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Manual Gerentes -->
+            <a href="../../bi/tutorials/MANUAL-GERENTES-BI.html" target="_blank"
+               class="manual-card p-8 rounded-2xl block group">
+                <div class="flex items-start gap-5">
+                    <div class="w-16 h-16 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user-tie text-cyan-400 text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] uppercase tracking-wider">
+                                Gerentes
+                            </span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                            Manual Gerentes
+                        </h3>
+                        <p class="text-sm text-sultan-cream/60 mb-4">
+                            Guia operacional para gestores de filial. Rotina diaria de analise,
+                            metricas de performance e acompanhamento de metas.
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-sultan-cream/50">
+                            <span><i class="fas fa-clock mr-1"></i> 25 min leitura</span>
+                            <span><i class="fas fa-layer-group mr-1"></i> Nivel: Operacional</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                    <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
+                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                        Abrir Manual
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Manual Analistas -->
+            <a href="../../bi/tutorials/MANUAL-ANALISTAS-BI.html" target="_blank"
+               class="manual-card p-8 rounded-2xl block group">
+                <div class="flex items-start gap-5">
+                    <div class="w-16 h-16 rounded-xl bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user-cog text-purple-400 text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-[10px] uppercase tracking-wider">
+                                Analistas
+                            </span>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                            Manual Analistas
+                        </h3>
+                        <p class="text-sm text-sultan-cream/60 mb-4">
+                            Documentacao tecnica avancada. SQL queries, 15 KPIs do Pilar Financeiro,
+                            formulas de calculo e Gold Layer.
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-sultan-cream/50">
+                            <span><i class="fas fa-clock mr-1"></i> 45 min leitura</span>
+                            <span><i class="fas fa-layer-group mr-1"></i> Nivel: Tecnico</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                    <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
+                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                        Abrir Manual
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                </div>
+            </a>
+
+        </section>
+
+        <!-- RECURSOS ADICIONAIS -->
+        <section class="mb-12">
+            <h2 class="text-sm text-sultan-cream/50 uppercase tracking-wider mb-6 text-center">
+                Recursos Adicionais
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <div class="glass-card p-5 rounded-xl text-center">
+                    <div class="w-12 h-12 rounded-lg bg-sultan-gold/20 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-print text-sultan-gold"></i>
+                    </div>
+                    <h3 class="font-medium text-sultan-cream mb-2">Imprimir Manual</h3>
+                    <p class="text-xs text-sultan-cream/50">
+                        Todos os manuais podem ser impressos em PDF usando Ctrl+P no navegador.
+                    </p>
+                </div>
+
+                <div class="glass-card p-5 rounded-xl text-center">
+                    <div class="w-12 h-12 rounded-lg bg-sultan-gold/20 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-video text-sultan-gold"></i>
+                    </div>
+                    <h3 class="font-medium text-sultan-cream mb-2">Videos Tutoriais</h3>
+                    <p class="text-xs text-sultan-cream/50">
+                        Em breve: tutoriais em video com demonstracoes praticas do sistema.
+                    </p>
+                </div>
+
+                <div class="glass-card p-5 rounded-xl text-center">
+                    <div class="w-12 h-12 rounded-lg bg-sultan-gold/20 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-question-circle text-sultan-gold"></i>
+                    </div>
+                    <h3 class="font-medium text-sultan-cream mb-2">Suporte</h3>
+                    <p class="text-xs text-sultan-cream/50">
+                        Duvidas? Entre em contato pelo chat ou abra um chamado no sistema.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- QUICK INFO -->
+        <section class="glass-card p-6 rounded-2xl">
+            <div class="flex items-center gap-3 mb-4">
+                <i class="fas fa-info-circle text-sultan-gold"></i>
+                <h3 class="font-medium text-sultan-cream">Sobre os Manuais</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-sultan-cream/70">
+                <div>
+                    <h4 class="font-medium text-sultan-cream mb-2">Estrutura</h4>
+                    <ul class="space-y-1">
+                        <li><i class="fas fa-check text-green-400 text-xs mr-2"></i>Introducao e conceitos basicos</li>
+                        <li><i class="fas fa-check text-green-400 text-xs mr-2"></i>Navegacao e interface</li>
+                        <li><i class="fas fa-check text-green-400 text-xs mr-2"></i>KPIs e metricas explicadas</li>
+                        <li><i class="fas fa-check text-green-400 text-xs mr-2"></i>Exemplos praticos de uso</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-sultan-cream mb-2">Atualizacoes</h4>
+                    <ul class="space-y-1">
+                        <li><i class="fas fa-calendar text-sultan-gold text-xs mr-2"></i>Ultima atualizacao: Janeiro 2025</li>
+                        <li><i class="fas fa-tag text-sultan-gold text-xs mr-2"></i>Versao atual: 3.0</li>
+                        <li><i class="fas fa-sync text-sultan-gold text-xs mr-2"></i>Manuais atualizados mensalmente</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-sultan-gold/10 mt-16 py-6 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-sultan-cream/40">
+            <span>Al Sultan do Brasil | Central de Documentacao</span>
+            <span>Desenvolvido por aiBotize | 2025</span>
+        </div>
+    </footer>
+
+</body>
+</html>

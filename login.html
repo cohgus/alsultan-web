@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Sultan | Acesso ao Sistema</title>
+    <meta name="description" content="Acesse o Centro de Comando Al Sultan com sua conta Google corporativa.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sultan: {
+                            dark: '#0a1a0a',
+                            green: '#0d2d0d',
+                            emerald: '#1a4d1a',
+                            gold: '#d4af37',
+                            goldLight: '#f0d77a',
+                            cream: '#faf8f5',
+                            sand: '#e8e4dc'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a1a0a 0%, #0d2d0d 50%, #1a4d1a 100%);
+            min-height: 100vh;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #f0d77a 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-card {
+            background: rgba(13, 45, 13, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .google-btn {
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .google-btn:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .pattern-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='%23d4af37' fill-opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans pattern-bg flex items-center justify-center min-h-screen p-6">
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-sultan-gold/5 blur-3xl floating"></div>
+        <div class="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-sultan-emerald/10 blur-3xl floating" style="animation-delay: -3s;"></div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="relative z-10 w-full max-w-md">
+
+        <!-- Logo and Title -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-sultan-gold/20 mb-6 relative">
+                <span class="text-4xl">&#127984;</span>
+                <div class="absolute inset-0 rounded-2xl border-2 border-sultan-gold/30 pulse-ring"></div>
+            </div>
+            <h1 class="font-display text-3xl md:text-4xl font-bold text-sultan-cream mb-2">
+                Al Sultan
+            </h1>
+            <p class="text-sultan-gold/80 text-sm uppercase tracking-widest">
+                Centro de Comando
+            </p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="login-card rounded-3xl p-8 md:p-10">
+
+            <div class="text-center mb-8">
+                <h2 class="font-display text-xl text-sultan-cream mb-2">
+                    Acesse o Sistema
+                </h2>
+                <p class="text-sultan-cream/60 text-sm">
+                    Use sua conta Google corporativa para entrar
+                </p>
+            </div>
+
+            <!-- Google Sign In Button -->
+            <div class="space-y-4">
+                <button id="google-signin-btn" onclick="handleGoogleSignIn()"
+                        class="google-btn w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-gray-700 font-medium shadow-lg">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span>Entrar com Google</span>
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="flex items-center gap-4 my-8">
+                <div class="flex-1 h-px bg-sultan-gold/20"></div>
+                <span class="text-sultan-cream/40 text-xs uppercase tracking-wider">Acesso Restrito</span>
+                <div class="flex-1 h-px bg-sultan-gold/20"></div>
+            </div>
+
+            <!-- Info -->
+            <div class="space-y-3 text-sm text-sultan-cream/50">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-shield-alt text-sultan-gold/60 w-5 text-center"></i>
+                    <span>Apenas contas autorizadas</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-lock text-sultan-gold/60 w-5 text-center"></i>
+                    <span>Conexao criptografada (SSL)</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-user-check text-sultan-gold/60 w-5 text-center"></i>
+                    <span>Acesso baseado em hierarquia</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-sultan-cream/30 text-xs">
+            <p>Al Sultan do Brasil &copy; 2025</p>
+            <p class="mt-1">Desenvolvido por aiBotize</p>
+        </div>
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-sultan-dark/90 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-sultan-gold/30 border-t-sultan-gold rounded-full animate-spin mb-4 mx-auto"></div>
+            <p class="text-sultan-cream">Autenticando...</p>
+        </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div id="error-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-red-500/90 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
+        <div class="flex items-center gap-3">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="error-message">Erro ao autenticar</span>
+        </div>
+    </div>
+
+    <script>
+        // Google OAuth Configuration
+        // Projeto: clever-overview-388203 | Client: bialsultan
+        const GOOGLE_CLIENT_ID = '570315449710-tcffq3hslg94jtqsu5kunrde3sn06821.apps.googleusercontent.com';
+
+        // Dominios autorizados (emails permitidos)
+        const ALLOWED_DOMAINS = ['alsultan.com.br', 'aibotize.com'];
+        const ALLOWED_EMAILS = [
+            'cohgus@gmail.com',
+            'sdcbettega@gmail.com',
+            'cohgus@aibotize.com'
+        ];
+
+        // Initialize Google Sign-In
+        function initGoogleSignIn() {
+            if (typeof google !== 'undefined') {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+            }
+        }
+
+        // Trigger Google Sign In
+        function handleGoogleSignIn() {
+            showLoading(true);
+
+            // Se Google Identity nao carregou, usar redirect flow
+            if (typeof google === 'undefined' || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
+                // Demo mode - simula login para desenvolvimento
+                simulateDemoLogin();
+                return;
+            }
+
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    // Fallback: popup flow
+                    google.accounts.oauth2.initTokenClient({
+                        client_id: GOOGLE_CLIENT_ID,
+                        scope: 'email profile',
+                        callback: (response) => {
+                            if (response.access_token) {
+                                fetchUserInfo(response.access_token);
+                            } else {
+                                showError('Autenticacao cancelada');
+                                showLoading(false);
+                            }
+                        }
+                    }).requestAccessToken();
+                }
+            });
+        }
+
+        // Handle credential response from Google
+        function handleCredentialResponse(response) {
+            const payload = parseJwt(response.credential);
+            validateAndRedirect(payload);
+        }
+
+        // Fetch user info with access token
+        async function fetchUserInfo(accessToken) {
+            try {
+                const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const payload = await response.json();
+                validateAndRedirect(payload);
+            } catch (error) {
+                showError('Erro ao obter dados do usuario');
+                showLoading(false);
+            }
+        }
+
+        // Validate user and redirect
+        function validateAndRedirect(user) {
+            const email = user.email || '';
+            const domain = email.split('@')[1];
+
+            // Verificar se email ou dominio esta autorizado
+            const isAllowed = ALLOWED_EMAILS.includes(email) || ALLOWED_DOMAINS.includes(domain);
+
+            if (!isAllowed) {
+                showError('Acesso nao autorizado para este email');
+                showLoading(false);
+                return;
+            }
+
+            // Salvar dados do usuario
+            const userData = {
+                name: user.name,
+                email: user.email,
+                picture: user.picture,
+                loginTime: new Date().toISOString()
+            };
+
+            localStorage.setItem('alsultan_user', JSON.stringify(userData));
+
+            // Redirect para o Command Center
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+
+        // Demo login para desenvolvimento
+        function simulateDemoLogin() {
+            const demoUser = {
+                name: 'Usuario Demo',
+                email: 'demo@alsultan.com.br',
+                picture: null,
+                loginTime: new Date().toISOString(),
+                isDemo: true
+            };
+
+            localStorage.setItem('alsultan_user', JSON.stringify(demoUser));
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        // Parse JWT token
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        // UI Helpers
+        function showLoading(show) {
+            document.getElementById('loading-overlay').classList.toggle('hidden', !show);
+        }
+
+        function showError(message) {
+            const toast = document.getElementById('error-toast');
+            document.getElementById('error-message').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 4000);
+        }
+
+        // Check if already logged in
+        function checkExistingSession() {
+            const user = localStorage.getItem('alsultan_user');
+            if (user) {
+                const userData = JSON.parse(user);
+                // Verificar se sessao nao expirou (24h)
+                const loginTime = new Date(userData.loginTime);
+                const now = new Date();
+                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+
+                if (hoursDiff < 24) {
+                    window.location.href = 'index.html';
+                } else {
+                    localStorage.removeItem('alsultan_user');
+                }
+            }
+        }
+
+        // Initialize
+        window.onload = function() {
+            checkExistingSession();
+            initGoogleSignIn();
+        };
+    </script>
+</body>
+</html>
