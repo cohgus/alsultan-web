@@ -1,13 +1,16 @@
 /**
  * Al Sultan - Centro de Comando
- * Modulo de Autenticacao
+ * Modulo de Autenticacao v2.1
  *
- * Gerencia autenticacao via Google OAuth e controle de sessao.
+ * Gerencia autenticacao via Google OAuth, controle de sessao
+ * e validacao de hierarquia de acessos.
+ *
+ * Atualizado: 2026-01-09
  */
 
 const Auth = {
     // =========================================================================
-    // CONFIGURACAO
+    // CONFIGURACAO (sincroniza com config.js se disponivel)
     // =========================================================================
 
     config: {
@@ -27,14 +30,20 @@ const Auth = {
      */
     init: function() {
         // Carregar config externa se disponivel
-        if (typeof CONFIG !== 'undefined' && CONFIG.google) {
-            this.config.clientId = CONFIG.google.clientId;
-            this.config.allowedDomains = CONFIG.google.allowedDomains;
-            this.config.allowedEmails = CONFIG.google.allowedEmails;
+        if (typeof CONFIG !== 'undefined') {
+            if (CONFIG.google) {
+                this.config.clientId = CONFIG.google.clientId;
+                this.config.allowedDomains = CONFIG.google.allowedDomains;
+                this.config.allowedEmails = CONFIG.google.allowedEmails;
+            }
+            if (CONFIG.session) {
+                this.config.sessionKey = CONFIG.session.storageKey;
+                this.config.expirationHours = CONFIG.session.expirationHours;
+            }
         }
 
         // Inicializar Google Identity Services
-        if (typeof google !== 'undefined' && this.config.clientId !== 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
+        if (typeof google !== 'undefined' && !this.config.clientId.includes('YOUR_GOOGLE_CLIENT_ID')) {
             google.accounts.id.initialize({
                 client_id: this.config.clientId,
                 callback: this.handleCredentialResponse.bind(this),
@@ -53,7 +62,7 @@ const Auth = {
      */
     login: function() {
         // Modo demo se nao configurado
-        if (this.config.clientId === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
+        if (this.config.clientId.includes('YOUR_GOOGLE_CLIENT_ID')) {
             this.demoLogin();
             return;
         }
@@ -92,7 +101,13 @@ const Auth = {
             email: 'demo@alsultan.com.br',
             picture: null,
             loginTime: new Date().toISOString(),
-            isDemo: true
+            isDemo: true,
+            role: 'demo',
+            groupIds: [1],
+            groupName: 'Demo',
+            level: 50,
+            isSuperuser: false,
+            canAccessAdmin: false
         };
 
         this.saveSession(demoUser);
@@ -128,7 +143,7 @@ const Auth = {
     },
 
     /**
-     * Valida usuario e salva sessao
+     * Valida usuario e salva sessao com dados de hierarquia
      */
     validateAndSave: function(user) {
         const email = user.email || '';
@@ -144,15 +159,51 @@ const Auth = {
             return;
         }
 
-        // Salvar sessao
+        // Obter informacoes de hierarquia (se CONFIG disponivel)
+        let role = 'user';
+        let groupName = 'All Users';
+        let groupIds = [1];
+        let level = 0;
+        let isSuperuser = false;
+        let canAccessAdmin = false;
+
+        if (typeof CONFIG !== 'undefined' && CONFIG.getUserInfo) {
+            const userConfig = CONFIG.getUserInfo(email);
+            level = CONFIG.getUserLevel ? CONFIG.getUserLevel(email) : 0;
+
+            if (userConfig) {
+                role = userConfig.role;
+                groupIds = userConfig.groupIds;
+                isSuperuser = userConfig.isSuperuser;
+                canAccessAdmin = userConfig.canAccessAdmin;
+
+                // Obter nome do grupo principal
+                if (CONFIG.getGroupById) {
+                    const primaryGroup = CONFIG.getGroupById(groupIds[groupIds.length - 1]);
+                    if (primaryGroup) {
+                        groupName = primaryGroup.name;
+                    }
+                }
+            }
+        }
+
+        // Construir dados completos da sessao
         const userData = {
             name: user.name,
             email: user.email,
             picture: user.picture,
-            loginTime: new Date().toISOString()
+            loginTime: new Date().toISOString(),
+            // Dados de hierarquia
+            role: role,
+            groupIds: groupIds,
+            groupName: groupName,
+            level: level,
+            isSuperuser: isSuperuser,
+            canAccessAdmin: canAccessAdmin
         };
 
         this.saveSession(userData);
+        this.onSuccess(userData);
         this.redirect('index.html');
     },
 
@@ -209,6 +260,49 @@ const Auth = {
     },
 
     // =========================================================================
+    // HIERARQUIA E PERMISSOES
+    // =========================================================================
+
+    /**
+     * Obtem nivel de acesso do usuario atual
+     */
+    getUserLevel: function() {
+        const user = this.getSession();
+        return user ? (user.level || 0) : 0;
+    },
+
+    /**
+     * Verifica se usuario pode acessar recurso com nivel minimo
+     */
+    canAccess: function(minLevel) {
+        return this.getUserLevel() >= minLevel;
+    },
+
+    /**
+     * Verifica se usuario e superuser
+     */
+    isSuperuser: function() {
+        const user = this.getSession();
+        return user ? (user.isSuperuser || false) : false;
+    },
+
+    /**
+     * Obtem nome do grupo do usuario
+     */
+    getGroupName: function() {
+        const user = this.getSession();
+        return user ? (user.groupName || 'All Users') : 'All Users';
+    },
+
+    /**
+     * Obtem role do usuario
+     */
+    getRole: function() {
+        const user = this.getSession();
+        return user ? (user.role || 'user') : 'user';
+    },
+
+    // =========================================================================
     // LOGOUT
     // =========================================================================
 
@@ -254,14 +348,14 @@ const Auth = {
      */
     onError: function(message) {
         console.error('Auth Error:', message);
-        alert(message);
+        // Pode ser customizado na implementacao
     },
 
     /**
      * Callback de sucesso (pode ser sobrescrito)
      */
     onSuccess: function(user) {
-        console.log('Auth Success:', user);
+        console.log('Auth Success:', user.name, '- Level:', user.level, '- Group:', user.groupName);
     }
 };
 
