@@ -20,9 +20,6 @@
     <!-- Config -->
     <script src="assets/js/config.js"></script>
 
-    <!-- Google Identity Services -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
     <style>
         :root {
             /* Al Sultan Brand Colors */
@@ -273,6 +270,7 @@
             color: var(--brown-dark);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-decoration: none;
         }
 
         .google-btn:hover {
@@ -632,8 +630,8 @@
                     <p>Acesse com sua conta Google corporativa</p>
                 </div>
 
-                <!-- Google Sign In Button -->
-                <button id="google-signin-btn" class="google-btn" onclick="handleGoogleSignIn()">
+                <!-- Google Sign In Button - OAuth Redirect Flow -->
+                <a href="#" id="google-signin-btn" class="google-btn" onclick="handleGoogleSignIn(); return false;">
                     <svg viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -641,7 +639,7 @@
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
                     <span>Entrar com Google</span>
-                </button>
+                </a>
 
                 <!-- Divider -->
                 <div class="divider">
@@ -677,7 +675,7 @@
                     <p>Desenvolvido por <a href="https://aibotize.com" target="_blank">aiBotize</a></p>
                     <div class="version-badge">
                         <i class="fas fa-code-branch"></i>
-                        <span>v<span id="version">2.1</span></span>
+                        <span>v<span id="version">2.2</span></span>
                     </div>
                 </div>
             </div>
@@ -704,78 +702,121 @@
 
     <script>
         // =========================================================================
-        // CONFIGURACAO (usa config.js)
+        // CONFIGURACAO OAUTH (Fluxo de Redirecionamento)
         // =========================================================================
 
-        const GOOGLE_CLIENT_ID = CONFIG.google.clientId;
+        const OAUTH_CONFIG = {
+            clientId: CONFIG.google.clientId,
+            // Redirect URI - mesma pagina para processar o callback
+            redirectUri: window.location.origin + '/login.html',
+            // Scopes necessarios
+            scope: 'openid email profile',
+            // URL de autorizacao do Google
+            authUrl: 'https://accounts.google.com/o/oauth2/v2/auth'
+        };
+
         const ALLOWED_DOMAINS = CONFIG.google.allowedDomains;
         const ALLOWED_EMAILS = CONFIG.google.allowedEmails;
         const SESSION_KEY = CONFIG.session.storageKey;
         const SESSION_HOURS = CONFIG.session.expirationHours;
 
         // =========================================================================
-        // INICIALIZACAO
+        // INICIALIZACAO - Verifica se estamos voltando do OAuth
         // =========================================================================
 
-        function initGoogleSignIn() {
-            if (typeof google !== 'undefined') {
-                google.accounts.id.initialize({
-                    client_id: GOOGLE_CLIENT_ID,
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
-            }
-        }
+        window.onload = function() {
+            // Atualizar versao
+            document.getElementById('version').textContent = CONFIG.version || '2.2';
 
-        // =========================================================================
-        // LOGIN FLOW
-        // =========================================================================
+            // Verificar se temos um token no hash (retorno do OAuth)
+            const hashParams = parseHashParams();
 
-        function handleGoogleSignIn() {
-            showLoading(true, 'Conectando ao Google...');
-
-            // Se Google Identity nao carregou, usar modo demo
-            if (typeof google === 'undefined' || GOOGLE_CLIENT_ID.includes('YOUR_GOOGLE_CLIENT_ID')) {
-                simulateDemoLogin();
+            if (hashParams.access_token) {
+                // Voltamos do OAuth com sucesso
+                showLoading(true, 'Processando autenticacao...');
+                handleOAuthCallback(hashParams.access_token);
                 return;
             }
 
-            google.accounts.id.prompt((notification) => {
-                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                    // Fallback: popup flow
-                    google.accounts.oauth2.initTokenClient({
-                        client_id: GOOGLE_CLIENT_ID,
-                        scope: 'email profile',
-                        callback: (response) => {
-                            if (response.access_token) {
-                                fetchUserInfo(response.access_token);
-                            } else {
-                                showError('Autenticacao cancelada');
-                                showLoading(false);
-                            }
-                        }
-                    }).requestAccessToken();
-                }
+            if (hashParams.error) {
+                // Erro no OAuth
+                showError('Erro na autenticacao: ' + (hashParams.error_description || hashParams.error));
+                // Limpar hash
+                history.replaceState(null, '', window.location.pathname);
+                return;
+            }
+
+            // Verificar sessao existente
+            checkExistingSession();
+        };
+
+        // =========================================================================
+        // OAUTH REDIRECT FLOW
+        // =========================================================================
+
+        function handleGoogleSignIn() {
+            showLoading(true, 'Redirecionando para Google...');
+
+            // Gerar state para seguranca (CSRF protection)
+            const state = generateRandomState();
+            sessionStorage.setItem('oauth_state', state);
+
+            // Construir URL de autorizacao
+            const params = new URLSearchParams({
+                client_id: OAUTH_CONFIG.clientId,
+                redirect_uri: OAUTH_CONFIG.redirectUri,
+                response_type: 'token',  // Implicit flow - retorna token diretamente
+                scope: OAUTH_CONFIG.scope,
+                state: state,
+                prompt: 'select_account',  // Sempre mostrar seletor de conta
+                include_granted_scopes: 'true'
             });
+
+            const authUrl = OAUTH_CONFIG.authUrl + '?' + params.toString();
+
+            // Redirecionar para Google
+            window.location.href = authUrl;
         }
 
-        function handleCredentialResponse(response) {
-            showLoading(true, 'Verificando credenciais...');
-            const payload = parseJwt(response.credential);
-            validateAndRedirect(payload);
-        }
+        // =========================================================================
+        // PROCESSAR CALLBACK DO OAUTH
+        // =========================================================================
 
-        async function fetchUserInfo(accessToken) {
+        async function handleOAuthCallback(accessToken) {
             try {
+                // Verificar state (CSRF protection)
+                const hashParams = parseHashParams();
+                const savedState = sessionStorage.getItem('oauth_state');
+
+                if (hashParams.state && savedState && hashParams.state !== savedState) {
+                    throw new Error('State invalido - possivel ataque CSRF');
+                }
+
+                // Limpar state
+                sessionStorage.removeItem('oauth_state');
+
+                // Limpar hash da URL
+                history.replaceState(null, '', window.location.pathname);
+
+                // Buscar informacoes do usuario
                 showLoading(true, 'Obtendo dados do usuario...');
+
                 const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                    headers: { 'Authorization': 'Bearer ' + accessToken }
                 });
-                const payload = await response.json();
-                validateAndRedirect(payload);
+
+                if (!response.ok) {
+                    throw new Error('Erro ao obter dados do usuario');
+                }
+
+                const user = await response.json();
+
+                // Validar e salvar
+                validateAndSave(user);
+
             } catch (error) {
-                showError('Erro ao obter dados do usuario');
+                console.error('OAuth callback error:', error);
+                showError(error.message || 'Erro ao processar autenticacao');
                 showLoading(false);
             }
         }
@@ -784,7 +825,7 @@
         // VALIDACAO E HIERARQUIA
         // =========================================================================
 
-        function validateAndRedirect(user) {
+        function validateAndSave(user) {
             const email = user.email || '';
             const domain = email.split('@')[1];
 
@@ -794,14 +835,14 @@
             const isAllowed = ALLOWED_EMAILS.includes(email) || ALLOWED_DOMAINS.includes(domain);
 
             if (!isAllowed) {
-                showError('Acesso nao autorizado para este email');
+                showError('Acesso nao autorizado para: ' + email);
                 showLoading(false);
                 return;
             }
 
             // Obter informacoes de hierarquia do CONFIG
-            const userConfig = CONFIG.getUserInfo(email);
-            const userLevel = CONFIG.getUserLevel(email);
+            const userConfig = CONFIG.getUserInfo ? CONFIG.getUserInfo(email) : null;
+            const userLevel = CONFIG.getUserLevel ? CONFIG.getUserLevel(email) : 0;
 
             // Determinar role baseado no nivel ou config
             let role = 'user';
@@ -817,14 +858,12 @@
                 canAccessAdmin = userConfig.canAccessAdmin;
 
                 // Obter nome do grupo principal
-                const primaryGroup = CONFIG.getGroupById(groupIds[groupIds.length - 1]);
-                if (primaryGroup) {
-                    groupName = primaryGroup.name;
+                if (CONFIG.getGroupById) {
+                    const primaryGroup = CONFIG.getGroupById(groupIds[groupIds.length - 1]);
+                    if (primaryGroup) {
+                        groupName = primaryGroup.name;
+                    }
                 }
-            } else {
-                // Usuario autorizado por dominio mas nao cadastrado
-                role = 'user';
-                groupName = 'All Users';
             }
 
             // Salvar dados completos do usuario
@@ -845,43 +884,13 @@
             localStorage.setItem(SESSION_KEY, JSON.stringify(userData));
 
             // Mostrar sucesso
-            showSuccess(`Bem-vindo(a), ${user.name}!`);
+            showSuccess('Bem-vindo(a), ' + user.name + '!');
             showLoading(true, 'Redirecionando...');
 
             // Redirect para o Command Center
-            setTimeout(() => {
+            setTimeout(function() {
                 window.location.href = 'index.html';
             }, 1000);
-        }
-
-        // =========================================================================
-        // MODO DEMO
-        // =========================================================================
-
-        function simulateDemoLogin() {
-            showLoading(true, 'Entrando em modo demonstracao...');
-
-            const demoUser = {
-                name: 'Usuario Demo',
-                email: 'demo@alsultan.com.br',
-                picture: null,
-                loginTime: new Date().toISOString(),
-                isDemo: true,
-                role: 'demo',
-                groupIds: [1],
-                groupName: 'Demo',
-                level: 50,
-                isSuperuser: false,
-                canAccessAdmin: false
-            };
-
-            localStorage.setItem(SESSION_KEY, JSON.stringify(demoUser));
-
-            showSuccess('Modo demo ativado');
-
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
         }
 
         // =========================================================================
@@ -891,14 +900,18 @@
         function checkExistingSession() {
             const user = localStorage.getItem(SESSION_KEY);
             if (user) {
-                const userData = JSON.parse(user);
-                const loginTime = new Date(userData.loginTime);
-                const now = new Date();
-                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                try {
+                    const userData = JSON.parse(user);
+                    const loginTime = new Date(userData.loginTime);
+                    const now = new Date();
+                    const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
 
-                if (hoursDiff < SESSION_HOURS) {
-                    window.location.href = 'index.html';
-                } else {
+                    if (hoursDiff < SESSION_HOURS) {
+                        window.location.href = 'index.html';
+                    } else {
+                        localStorage.removeItem(SESSION_KEY);
+                    }
+                } catch (e) {
                     localStorage.removeItem(SESSION_KEY);
                 }
             }
@@ -908,53 +921,53 @@
         // UTILIDADES
         // =========================================================================
 
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
+        function parseHashParams() {
+            const hash = window.location.hash.substring(1);
+            const params = {};
+
+            if (hash) {
+                hash.split('&').forEach(function(part) {
+                    const item = part.split('=');
+                    params[item[0]] = decodeURIComponent(item[1] || '');
+                });
+            }
+
+            return params;
+        }
+
+        function generateRandomState() {
+            const array = new Uint8Array(32);
+            crypto.getRandomValues(array);
+            return Array.from(array, function(byte) {
+                return byte.toString(16).padStart(2, '0');
+            }).join('');
         }
 
         // =========================================================================
         // UI HELPERS
         // =========================================================================
 
-        function showLoading(show, message = 'Autenticando...') {
+        function showLoading(show, message) {
+            message = message || 'Autenticando...';
             const overlay = document.getElementById('loading-overlay');
             overlay.classList.toggle('active', show);
             document.getElementById('loading-text').textContent = message;
         }
 
         function showError(message) {
+            showLoading(false);
             const toast = document.getElementById('error-toast');
             document.getElementById('error-message').textContent = message;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 4000);
+            setTimeout(function() { toast.classList.remove('show'); }, 5000);
         }
 
         function showSuccess(message) {
             const toast = document.getElementById('success-toast');
             document.getElementById('success-message').textContent = message;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(function() { toast.classList.remove('show'); }, 3000);
         }
-
-        // =========================================================================
-        // INIT
-        // =========================================================================
-
-        window.onload = function() {
-            // Atualizar versao
-            document.getElementById('version').textContent = CONFIG.version;
-
-            // Verificar sessao existente
-            checkExistingSession();
-
-            // Inicializar Google Sign-In
-            initGoogleSignIn();
-        };
     </script>
 </body>
 </html>
