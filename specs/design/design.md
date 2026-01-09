@@ -51,7 +51,7 @@ Unificar todas as paginas com a paleta QUENTE do `login.html`, que reflete a ide
 
 ```mermaid
 graph TB
-    subgraph "Frontend - GitHub Pages"
+    subgraph "Frontend - Hostinger"
         A[login.html] --> B[Google OAuth]
         B --> C{Autenticado?}
         C -->|Sim| D[index.html]
@@ -850,7 +850,7 @@ sequenceDiagram
 **Evidence**:
 - login.html usa CSS puro com sucesso
 - index.html ja usa Tailwind funcional
-- Nao requer build step (GitHub Pages)
+- Nao requer build step (Hostinger static hosting)
 
 **Trade-offs Accepted**:
 - Arquivo CSS maior (variaveis + Tailwind CDN)
@@ -860,7 +860,7 @@ sequenceDiagram
 
 **Why NOT Tailwind-only?**
 - Requer build step para config customizado completo
-- GitHub Pages nao suporta build facilmente
+- Hostinger static hosting nao suporta build facilmente
 - CSS Variables mais flexiveis para temas
 
 **When to Reconsider**:
@@ -869,7 +869,7 @@ sequenceDiagram
 ### 12.3 CHOSEN: Google OAuth Implicit Flow
 
 **Why Implicit Flow?**
-- Nao requer backend (GitHub Pages)
+- Nao requer backend (static hosting)
 - Simples de implementar
 - Token retornado diretamente no hash
 
@@ -884,7 +884,7 @@ sequenceDiagram
 
 | Tecnologia | Versao | Compativel Com | Verificado | Evidence | Risco |
 |------------|--------|----------------|------------|----------|-------|
-| Tailwind CSS | CDN | GitHub Pages | Sim | Funciona em index.html | Baixo |
+| Tailwind CSS | CDN | Hostinger | Sim | Funciona em index.html | Baixo |
 | Google Fonts | API | Todos navegadores | Sim | Standard web | Baixo |
 | FontAwesome | 6.4.0 | Todos navegadores | Sim | Standard web | Baixo |
 | Google OAuth | v2 | Modern browsers | Sim | Funciona em login.html | Baixo |

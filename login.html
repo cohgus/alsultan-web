@@ -19,6 +19,24 @@
 
     <!-- Config -->
     <script src="assets/js/config.js"></script>
+    <script>
+        // Fallback robusto se config.js nao carregar
+        if (typeof CONFIG === 'undefined') {
+            console.warn('CONFIG nao carregou - usando fallback');
+            window.CONFIG = {
+                google: {
+                    clientId: '570315449710-tcffq3hslg94jtqsu5kunrde3sn06821.apps.googleusercontent.com',
+                    allowedDomains: ['alsultan.com.br', 'aibotize.com'],
+                    allowedEmails: ['cohgus@gmail.com', 'sdcbettega@gmail.com', 'cohgus@aibotize.com']
+                },
+                session: { storageKey: 'alsultan_user', expirationHours: 24 },
+                version: '2.3',
+                getUserInfo: function(email) { return null; },
+                getUserLevel: function(email) { return 50; },
+                getGroupById: function(id) { return { name: 'All Users', level: 0 }; }
+            };
+        }
+    </script>
 
     <style>
         :root {
@@ -675,7 +693,7 @@
                     <p>Desenvolvido por <a href="https://aibotize.com" target="_blank">aiBotize</a></p>
                     <div class="version-badge">
                         <i class="fas fa-code-branch"></i>
-                        <span>v<span id="version">2.2</span></span>
+                        <span>v<span id="version">2.3</span></span>
                     </div>
                 </div>
             </div>
@@ -788,7 +806,8 @@
                 const hashParams = parseHashParams();
                 const savedState = sessionStorage.getItem('oauth_state');
 
-                if (hashParams.state && savedState && hashParams.state !== savedState) {
+                // Validacao CSRF robusta - rejeita se state nao bater
+                if (!savedState || !hashParams.state || hashParams.state !== savedState) {
                     throw new Error('State invalido - possivel ataque CSRF');
                 }
 

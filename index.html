@@ -19,6 +19,28 @@
 
     <!-- Config -->
     <script src="assets/js/config.js"></script>
+    <script>
+        // Fallback robusto se config.js nao carregar
+        if (typeof CONFIG === 'undefined') {
+            console.warn('CONFIG nao carregou - usando fallback');
+            window.CONFIG = {
+                google: {
+                    clientId: '570315449710-tcffq3hslg94jtqsu5kunrde3sn06821.apps.googleusercontent.com',
+                    allowedDomains: ['alsultan.com.br', 'aibotize.com'],
+                    allowedEmails: ['cohgus@gmail.com', 'sdcbettega@gmail.com', 'cohgus@aibotize.com']
+                },
+                session: { storageKey: 'alsultan_user', expirationHours: 24 },
+                urls: {
+                    portal: 'https://alsultan.tech',
+                    metabase: 'https://bi.alsultan.tech',
+                    n8n: 'https://flows.alsultan.tech',
+                    directus: 'https://directus.alsultan.tech',
+                    support: 'https://app.alsultan.tech'
+                },
+                version: '2.3'
+            };
+        }
+    </script>
 
     <style>
         :root {
@@ -626,10 +648,62 @@
             text-decoration: none;
         }
 
+        /* ===== MOBILE MENU TOGGLE ===== */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--brown-dark);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 45;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .sidebar-close-btn {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.25rem;
+            cursor: pointer;
+            z-index: 51;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .sidebar-close-btn {
+                display: block;
+            }
+
             .sidebar {
                 transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
             }
 
             .main-content {
@@ -638,6 +712,23 @@
 
             .content-area {
                 padding: 1rem;
+            }
+
+            .header-title h1 {
+                font-size: 1.25rem;
+            }
+
+            .header-title p {
+                display: none;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+            }
+
+            .quick-btn {
+                width: 100%;
+                justify-content: flex-start;
             }
         }
 
@@ -669,10 +760,16 @@
         })();
     </script>
 
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileMenu()"></div>
+
     <div class="app-container">
 
         <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
+            <button class="sidebar-close-btn" onclick="toggleMobileMenu()" aria-label="Fechar menu">
+                <i class="fas fa-times"></i>
+            </button>
             <div class="sidebar-content">
 
                 <!-- Logo -->
@@ -755,6 +852,9 @@
 
             <!-- Header -->
             <header class="main-header">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="header-title">
                     <h1>Painel de Controle</h1>
                     <p id="current-date">Carregando...</p>
@@ -764,7 +864,7 @@
                         <span class="status-dot"></span>
                         <span>Sistema Online</span>
                     </div>
-                    <span class="version-tag">v2.2</span>
+                    <span class="version-tag">v2.3</span>
                 </div>
             </header>
 
@@ -1058,7 +1158,7 @@
 
             <!-- Footer -->
             <footer class="main-footer">
-                <span>Al Sultan do Brasil | Centro de Comando v2.2</span>
+                <span>Al Sultan do Brasil | Centro de Comando v2.3</span>
                 <span>Desenvolvido por <a href="https://aibotize.com" target="_blank">aiBotize</a> | 2026</span>
             </footer>
 
@@ -1096,6 +1196,15 @@
         function logout() {
             localStorage.removeItem('alsultan_user');
             window.location.href = 'login.html';
+        }
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
         }
 
         // Init
