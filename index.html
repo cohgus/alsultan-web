@@ -4,130 +4,653 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Al Sultan | Centro de Comando</title>
-    <meta name="description" content="Centro de Comando Al Sultan - Acesse dashboards, manuais e recursos do sistema.">
+    <meta name="description" content="Centro de Comando Al Sultan - Exageradamente Gostoso">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%AE%3C/text%3E%3C/svg%3E">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sultan: {
-                            dark: '#0a1a0a',
-                            green: '#0d2d0d',
-                            emerald: '#1a4d1a',
-                            gold: '#d4af37',
-                            goldLight: '#f0d77a',
-                            cream: '#faf8f5',
-                            sand: '#e8e4dc'
-                        }
-                    },
-                    fontFamily: {
-                        display: ['Playfair Display', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Config -->
+    <script src="assets/js/config.js"></script>
 
     <style>
+        :root {
+            /* Al Sultan Brand Colors */
+            --sultan-orange: #ea5512;
+            --sultan-orange-dark: #c94510;
+            --sultan-orange-light: #ff6b2c;
+            --sultan-gold: #ffca07;
+            --sultan-gold-light: #ffe066;
+            --sultan-red: #e5123c;
+            --sultan-teal: #0bb0a0;
+
+            /* Neutral Tones */
+            --sand-light: #faf6f0;
+            --sand: #f5ebe0;
+            --sand-dark: #e6d5c3;
+            --cream: #fff8f0;
+            --brown-dark: #2d1810;
+            --brown-medium: #5c3d2e;
+            --brown-light: #8b6b5a;
+
+            /* Sidebar */
+            --sidebar-bg: #1a0f0a;
+            --sidebar-hover: rgba(234, 85, 18, 0.1);
+            --sidebar-active: rgba(234, 85, 18, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(180deg, #0a1a0a 0%, #0d2d0d 100%);
-            color: #faf8f5;
+            font-family: 'Poppins', sans-serif;
+            background: var(--sand-light);
+            color: var(--brown-dark);
             min-height: 100vh;
         }
 
-        .gold-gradient {
-            background: linear-gradient(135deg, #d4af37 0%, #f0d77a 50%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* ===== LAYOUT ===== */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
         }
 
-        .glass-card {
-            background: rgba(13, 45, 13, 0.4);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            transition: all 0.3s ease;
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, var(--sidebar-bg) 0%, #2d1810 100%);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 50;
         }
 
-        .glass-card:hover {
-            background: rgba(13, 45, 13, 0.6);
-            border-color: rgba(212, 175, 55, 0.3);
+        /* Pattern overlay */
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 0L60 30L30 60L0 30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
         }
 
-        .action-card {
-            background: linear-gradient(135deg, rgba(13, 45, 13, 0.5) 0%, rgba(10, 26, 10, 0.7) 100%);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            transition: all 0.3s ease;
+        .sidebar-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
-        .action-card:hover {
-            border-color: rgba(212, 175, 55, 0.4);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+        .sidebar-logo {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(234, 85, 18, 0.1);
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-gold) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(234, 85, 18, 0.3);
+        }
+
+        .logo-text {
+            flex: 1;
+        }
+
+        .logo-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-subtitle {
+            font-size: 0.65rem;
+            color: var(--sultan-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Navigation */
+        .sidebar-nav {
+            flex: 1;
+            padding: 1rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--sidebar-hover);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: var(--sidebar-active);
+            color: white;
+            border-left-color: var(--sultan-orange);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .nav-link .external-icon {
+            margin-left: auto;
+            font-size: 0.7rem;
+            opacity: 0.4;
+        }
+
+        /* User section */
+        .sidebar-user {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(234, 85, 18, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            color: var(--sultan-gold);
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .logout-btn:hover {
+            color: var(--sultan-red);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .main-header {
+            background: white;
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid var(--sand-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        .header-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--brown-dark);
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            color: var(--brown-medium);
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(11, 176, 160, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--sultan-teal);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sultan-teal);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.9); }
+        }
+
+        .version-tag {
+            font-size: 0.75rem;
+            color: var(--brown-light);
+            padding: 0.25rem 0.75rem;
+            background: var(--sand);
+            border-radius: 10px;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 0.75rem;
+            color: var(--brown-medium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
         }
 
         .quick-btn {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 10px;
+            color: var(--brown-dark);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
             transition: all 0.2s ease;
         }
 
         .quick-btn:hover {
-            background: rgba(212, 175, 55, 0.2);
-            border-color: rgba(212, 175, 55, 0.4);
+            border-color: var(--sultan-orange);
+            box-shadow: 0 4px 15px rgba(234, 85, 18, 0.1);
+            transform: translateY(-2px);
         }
 
-        .status-online {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .quick-btn i {
+            color: var(--sultan-orange);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        /* Infrastructure Status */
+        .infra-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .decorative-line {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        .infra-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a1a0a; }
-        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px; }
+        .infra-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--brown-dark);
+        }
 
-        .sidebar-link {
+        .infra-title i {
+            color: var(--sultan-orange);
+        }
+
+        .infra-updated {
+            font-size: 0.75rem;
+            color: var(--brown-light);
+        }
+
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .infra-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--sand-light);
+            border-radius: 10px;
+        }
+
+        .infra-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sultan-teal);
+        }
+
+        .infra-item-label {
+            font-size: 0.65rem;
+            color: var(--brown-light);
+            text-transform: uppercase;
+        }
+
+        .infra-item-value {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--brown-dark);
+        }
+
+        .infra-footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--sand);
+            font-size: 0.75rem;
+            color: var(--brown-light);
+        }
+
+        .infra-footer span i {
+            margin-right: 0.25rem;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Action Cards */
+        .action-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 12px;
+            text-decoration: none;
             transition: all 0.2s ease;
         }
 
-        .sidebar-link:hover {
-            background: rgba(212, 175, 55, 0.1);
+        .action-card:hover {
+            border-color: var(--sultan-orange);
+            box-shadow: 0 8px 25px rgba(234, 85, 18, 0.1);
+            transform: translateY(-2px);
         }
 
-        .sidebar-link.active {
-            background: rgba(212, 175, 55, 0.15);
-            border-left: 3px solid #d4af37;
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
         }
+
+        .action-icon.orange { background: rgba(234, 85, 18, 0.1); color: var(--sultan-orange); }
+        .action-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .action-icon.purple { background: rgba(147, 51, 234, 0.1); color: #9333ea; }
+        .action-icon.green { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+        .action-icon.gold { background: rgba(255, 202, 7, 0.15); color: #d4a000; }
+        .action-icon.teal { background: rgba(11, 176, 160, 0.1); color: var(--sultan-teal); }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-title {
+            font-weight: 600;
+            color: var(--brown-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .action-desc {
+            font-size: 0.8rem;
+            color: var(--brown-light);
+        }
+
+        .action-arrow {
+            color: var(--sultan-orange);
+            opacity: 0.5;
+            transition: all 0.2s;
+        }
+
+        .action-card:hover .action-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .info-card-title {
+            font-weight: 600;
+            color: var(--brown-dark);
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            color: var(--brown-medium);
+            border-bottom: 1px solid var(--sand);
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list li i {
+            font-size: 0.7rem;
+            width: 16px;
+        }
+
+        .info-list a {
+            color: var(--sultan-orange);
+            text-decoration: none;
+        }
+
+        .info-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: white;
+            border-top: 1px solid var(--sand-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--brown-light);
+        }
+
+        .main-footer a {
+            color: var(--sultan-orange);
+            text-decoration: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-area {
+                padding: 1rem;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--sand-light); }
+        ::-webkit-scrollbar-thumb { background: var(--sand-dark); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brown-light); }
     </style>
 </head>
-<body class="antialiased font-sans">
+<body>
 
-    <!-- Auth Check - Redireciona se nao logado -->
+    <!-- Auth Check -->
     <script>
         (function() {
             const user = localStorage.getItem('alsultan_user');
@@ -135,7 +658,6 @@
                 window.location.href = 'login.html';
                 return;
             }
-            // Verificar expiracao (24h)
             const userData = JSON.parse(user);
             const loginTime = new Date(userData.loginTime);
             const now = new Date();
@@ -147,476 +669,397 @@
         })();
     </script>
 
-    <div class="flex min-h-screen">
+    <div class="app-container">
 
         <!-- SIDEBAR -->
-        <aside class="w-64 bg-sultan-dark/50 border-r border-sultan-gold/10 flex flex-col">
+        <aside class="sidebar">
+            <div class="sidebar-content">
 
-            <!-- Logo -->
-            <div class="p-6 border-b border-sultan-gold/10">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-sultan-gold/20 flex items-center justify-center">
-                        <span class="text-xl">&#127984;</span>
-                    </div>
-                    <div>
-                        <div class="font-display text-lg font-bold text-sultan-cream">Al Sultan</div>
-                        <div class="text-[10px] text-sultan-gold/70 uppercase tracking-widest">Centro de Comando</div>
+                <!-- Logo -->
+                <div class="sidebar-logo">
+                    <div class="logo-wrapper">
+                        <div class="logo-icon">
+                            <span>&#127790;</span>
+                        </div>
+                        <div class="logo-text">
+                            <div class="logo-title">Al Sultan</div>
+                            <div class="logo-subtitle">Centro de Comando</div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Navigation -->
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <div class="nav-section-title">Principal</div>
+                        <a href="#" class="nav-link active">
+                            <i class="fas fa-th-large"></i>
+                            <span>Painel</span>
+                        </a>
+                        <a href="manuais/" class="nav-link">
+                            <i class="fas fa-book"></i>
+                            <span>Manuais</span>
+                        </a>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Sistemas</div>
+                        <a href="https://bi.alsultan.tech" target="_blank" class="nav-link">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Metabase BI</span>
+                            <i class="fas fa-external-link-alt external-icon"></i>
+                        </a>
+                        <a href="https://flows.alsultan.tech" target="_blank" class="nav-link">
+                            <i class="fas fa-cogs"></i>
+                            <span>n8n Flows</span>
+                            <i class="fas fa-external-link-alt external-icon"></i>
+                        </a>
+                        <a href="https://directus.alsultan.tech" target="_blank" class="nav-link">
+                            <i class="fas fa-database"></i>
+                            <span>Directus</span>
+                            <i class="fas fa-external-link-alt external-icon"></i>
+                        </a>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Suporte</div>
+                        <a href="https://app.alsultan.tech" target="_blank" class="nav-link">
+                            <i class="fas fa-headset"></i>
+                            <span>Atendimento</span>
+                            <i class="fas fa-external-link-alt external-icon"></i>
+                        </a>
+                    </div>
+                </nav>
+
+                <!-- User -->
+                <div class="sidebar-user">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="user-name">Usuario</div>
+                            <div class="user-role" id="user-role">Carregando...</div>
+                        </div>
+                        <button class="logout-btn" onclick="logout()" title="Sair">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
             </div>
-
-            <!-- Navigation -->
-            <nav class="flex-1 py-4">
-                <div class="px-4 mb-2">
-                    <span class="text-[10px] text-sultan-cream/40 uppercase tracking-wider">Principal</span>
-                </div>
-
-                <a href="#" class="sidebar-link active flex items-center gap-3 px-6 py-3 text-sm text-sultan-cream">
-                    <i class="fas fa-th-large w-5 text-sultan-gold"></i>
-                    <span>Painel</span>
-                </a>
-
-                <a href="manuais/" class="sidebar-link flex items-center gap-3 px-6 py-3 text-sm text-sultan-cream/70 hover:text-sultan-cream">
-                    <i class="fas fa-book w-5 text-sultan-cream/40"></i>
-                    <span>Manuais</span>
-                </a>
-
-                <div class="px-4 mt-6 mb-2">
-                    <span class="text-[10px] text-sultan-cream/40 uppercase tracking-wider">Sistemas</span>
-                </div>
-
-                <a href="https://bi.alsultan.tech" target="_blank" class="sidebar-link flex items-center gap-3 px-6 py-3 text-sm text-sultan-cream/70 hover:text-sultan-cream">
-                    <i class="fas fa-chart-pie w-5 text-sultan-cream/40"></i>
-                    <span>Metabase BI</span>
-                    <i class="fas fa-external-link-alt text-xs ml-auto opacity-50"></i>
-                </a>
-
-                <a href="https://flows.alsultan.tech" target="_blank" class="sidebar-link flex items-center gap-3 px-6 py-3 text-sm text-sultan-cream/70 hover:text-sultan-cream">
-                    <i class="fas fa-cogs w-5 text-sultan-cream/40"></i>
-                    <span>n8n Flows</span>
-                    <i class="fas fa-external-link-alt text-xs ml-auto opacity-50"></i>
-                </a>
-
-                <a href="https://directus.alsultan.tech" target="_blank" class="sidebar-link flex items-center gap-3 px-6 py-3 text-sm text-sultan-cream/70 hover:text-sultan-cream">
-                    <i class="fas fa-database w-5 text-sultan-cream/40"></i>
-                    <span>Directus</span>
-                    <i class="fas fa-external-link-alt text-xs ml-auto opacity-50"></i>
-                </a>
-
-                <div class="px-4 mt-6 mb-2">
-                    <span class="text-[10px] text-sultan-cream/40 uppercase tracking-wider">Suporte</span>
-                </div>
-
-                <a href="https://app.alsultan.tech" target="_blank" class="sidebar-link flex items-center gap-3 px-6 py-3 text-sm text-sultan-cream/70 hover:text-sultan-cream">
-                    <i class="fas fa-headset w-5 text-sultan-cream/40"></i>
-                    <span>Atendimento</span>
-                    <i class="fas fa-external-link-alt text-xs ml-auto opacity-50"></i>
-                </a>
-            </nav>
-
-            <!-- User Info -->
-            <div class="p-4 border-t border-sultan-gold/10">
-                <div class="flex items-center gap-3">
-                    <div id="user-avatar" class="w-9 h-9 rounded-full bg-sultan-gold/20 flex items-center justify-center">
-                        <i class="fas fa-user text-sultan-gold text-sm"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div id="user-name" class="text-sm text-sultan-cream truncate">Usuario</div>
-                        <div id="user-email" class="text-[10px] text-sultan-cream/50 truncate">email@email.com</div>
-                    </div>
-                    <button onclick="logout()" class="p-2 text-sultan-cream/40 hover:text-sultan-cream transition-colors" title="Sair">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </div>
-            </div>
-
         </aside>
 
-        <!-- MAIN CONTENT -->
-        <main class="flex-1 overflow-auto">
+        <!-- MAIN -->
+        <main class="main-content">
 
-            <!-- HEADER -->
-            <header class="sticky top-0 z-10 bg-sultan-dark/80 backdrop-blur-lg border-b border-sultan-gold/10 px-8 py-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="font-display text-2xl font-bold text-sultan-cream">Painel de Controle</h1>
-                        <p class="text-sm text-sultan-cream/50" id="current-date">Carregando...</p>
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-title">
+                    <h1>Painel de Controle</h1>
+                    <p id="current-date">Carregando...</p>
+                </div>
+                <div class="header-status">
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        <span>Sistema Online</span>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <div class="flex items-center gap-2 text-sm">
-                            <span class="w-2 h-2 rounded-full bg-green-500 status-online"></span>
-                            <span class="text-sultan-cream/60">Sistema Online</span>
-                        </div>
-                        <span class="text-sultan-cream/30">|</span>
-                        <span class="text-sultan-gold/70 text-xs">v2.0</span>
-                    </div>
+                    <span class="version-tag">v2.2</span>
                 </div>
             </header>
 
-            <!-- CONTENT -->
-            <div class="p-8">
+            <!-- Content -->
+            <div class="content-area">
 
-                <!-- QUICK ACTIONS -->
-                <section class="mb-8">
-                    <h2 class="text-sm text-sultan-cream/50 uppercase tracking-wider mb-4">Acesso Rapido</h2>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="https://bi.alsultan.tech/dashboard/10" target="_blank"
-                           class="quick-btn px-4 py-2 rounded-lg text-sm text-sultan-cream flex items-center gap-2">
-                            <i class="fas fa-file-invoice-dollar text-sultan-gold"></i>
-                            <span>DRE Gerencial</span>
-                        </a>
-                        <a href="https://bi.alsultan.tech/dashboard/11" target="_blank"
-                           class="quick-btn px-4 py-2 rounded-lg text-sm text-sultan-cream flex items-center gap-2">
-                            <i class="fas fa-chart-line text-sultan-gold"></i>
-                            <span>Performance Diaria</span>
-                        </a>
-                        <a href="https://bi.alsultan.tech/dashboard/12" target="_blank"
-                           class="quick-btn px-4 py-2 rounded-lg text-sm text-sultan-cream flex items-center gap-2">
-                            <i class="fas fa-store text-sultan-gold"></i>
-                            <span>Franquias</span>
-                        </a>
-                        <a href="manuais/"
-                           class="quick-btn px-4 py-2 rounded-lg text-sm text-sultan-cream flex items-center gap-2">
-                            <i class="fas fa-book text-sultan-gold"></i>
-                            <span>Ver Manuais</span>
-                        </a>
+                <!-- Quick Actions -->
+                <div class="section-title">Acesso Rapido</div>
+                <div class="quick-actions">
+                    <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="quick-btn">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>DRE Gerencial</span>
+                    </a>
+                    <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="quick-btn">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Performance Diaria</span>
+                    </a>
+                    <a href="https://bi.alsultan.tech/dashboard/12" target="_blank" class="quick-btn">
+                        <i class="fas fa-store"></i>
+                        <span>Franquias</span>
+                    </a>
+                    <a href="manuais/" class="quick-btn">
+                        <i class="fas fa-book"></i>
+                        <span>Ver Manuais</span>
+                    </a>
+                </div>
+
+                <!-- Infrastructure Status -->
+                <div class="infra-card">
+                    <div class="infra-header">
+                        <div class="infra-title">
+                            <i class="fas fa-server"></i>
+                            <span>Status da Infraestrutura</span>
+                        </div>
+                        <span class="infra-updated">Atualizado automaticamente</span>
                     </div>
-                </section>
-
-                <!-- STATUS DA INFRAESTRUTURA -->
-                <section class="mb-8">
-                    <div class="glass-card p-6 rounded-2xl">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-server text-sultan-gold"></i>
-                                <h3 class="font-display text-lg font-bold text-sultan-cream">Status da Infraestrutura</h3>
-                            </div>
-                            <span class="text-xs text-sultan-cream/40">Atualizado automaticamente</span>
-                        </div>
-                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                            <div class="flex items-center gap-2 p-3 rounded-lg bg-sultan-dark/50">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                <div>
-                                    <div class="text-[10px] text-sultan-cream/50">Data Lake</div>
-                                    <div class="text-sm font-medium text-sultan-cream">Directus</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 p-3 rounded-lg bg-sultan-dark/50">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                <div>
-                                    <div class="text-[10px] text-sultan-cream/50">Automacao</div>
-                                    <div class="text-sm font-medium text-sultan-cream">n8n</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 p-3 rounded-lg bg-sultan-dark/50">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                <div>
-                                    <div class="text-[10px] text-sultan-cream/50">BI</div>
-                                    <div class="text-sm font-medium text-sultan-cream">Metabase</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 p-3 rounded-lg bg-sultan-dark/50">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                <div>
-                                    <div class="text-[10px] text-sultan-cream/50">Database</div>
-                                    <div class="text-sm font-medium text-sultan-cream">PostgreSQL</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 p-3 rounded-lg bg-sultan-dark/50">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                <div>
-                                    <div class="text-[10px] text-sultan-cream/50">Cache</div>
-                                    <div class="text-sm font-medium text-sultan-cream">Redis</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 p-3 rounded-lg bg-sultan-dark/50">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                <div>
-                                    <div class="text-[10px] text-sultan-cream/50">Filas</div>
-                                    <div class="text-sm font-medium text-sultan-cream">RabbitMQ</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 p-3 rounded-lg bg-sultan-dark/50">
-                                <span class="w-2 h-2 rounded-full bg-green-500 status-online"></span>
-                                <div>
-                                    <div class="text-[10px] text-sultan-cream/50">Pipeline</div>
-                                    <div class="text-sm font-medium text-sultan-cream">Medallion</div>
-                                </div>
+                    <div class="infra-grid">
+                        <div class="infra-item">
+                            <span class="infra-dot"></span>
+                            <div>
+                                <div class="infra-item-label">Data Lake</div>
+                                <div class="infra-item-value">Directus</div>
                             </div>
                         </div>
-                        <div class="mt-4 pt-4 border-t border-sultan-gold/10 flex flex-wrap items-center gap-4 text-xs text-sultan-cream/50">
-                            <span><i class="fas fa-database mr-1"></i> 51 Collections</span>
-                            <span><i class="fas fa-cogs mr-1"></i> 31 Workflows</span>
-                            <span><i class="fas fa-clock mr-1"></i> Sync 3x/dia (07h, 15h, 22h)</span>
-                            <span><i class="fas fa-layer-group mr-1"></i> Bronze &rarr; Silver &rarr; Gold</span>
+                        <div class="infra-item">
+                            <span class="infra-dot"></span>
+                            <div>
+                                <div class="infra-item-label">Automacao</div>
+                                <div class="infra-item-value">n8n</div>
+                            </div>
+                        </div>
+                        <div class="infra-item">
+                            <span class="infra-dot"></span>
+                            <div>
+                                <div class="infra-item-label">BI</div>
+                                <div class="infra-item-value">Metabase</div>
+                            </div>
+                        </div>
+                        <div class="infra-item">
+                            <span class="infra-dot"></span>
+                            <div>
+                                <div class="infra-item-label">Database</div>
+                                <div class="infra-item-value">PostgreSQL</div>
+                            </div>
+                        </div>
+                        <div class="infra-item">
+                            <span class="infra-dot"></span>
+                            <div>
+                                <div class="infra-item-label">Cache</div>
+                                <div class="infra-item-value">Redis</div>
+                            </div>
+                        </div>
+                        <div class="infra-item">
+                            <span class="infra-dot"></span>
+                            <div>
+                                <div class="infra-item-label">Filas</div>
+                                <div class="infra-item-value">RabbitMQ</div>
+                            </div>
+                        </div>
+                        <div class="infra-item">
+                            <span class="infra-dot" style="animation: pulse 2s infinite;"></span>
+                            <div>
+                                <div class="infra-item-label">Pipeline</div>
+                                <div class="infra-item-value">Medallion</div>
+                            </div>
                         </div>
                     </div>
-                </section>
+                    <div class="infra-footer">
+                        <span><i class="fas fa-database"></i> 51 Collections</span>
+                        <span><i class="fas fa-cogs"></i> 31 Workflows</span>
+                        <span><i class="fas fa-clock"></i> Sync 3x/dia (07h, 15h, 22h)</span>
+                        <span><i class="fas fa-layer-group"></i> Bronze &rarr; Silver &rarr; Gold</span>
+                    </div>
+                </div>
 
-                <!-- DASHBOARDS E MANUAIS -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Dashboards & Docs -->
+                <div class="cards-grid">
 
-                    <!-- DASHBOARDS -->
-                    <section>
-                        <h2 class="text-sm text-sultan-cream/50 uppercase tracking-wider mb-4">Dashboards</h2>
-                        <div class="space-y-3">
-
-                            <a href="https://bi.alsultan.tech/dashboard/10" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-orange-500/20 flex items-center justify-center">
-                                        <i class="fas fa-file-invoice-dollar text-orange-400 text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            DRE Gerencial
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            Demonstrativo de Resultado com margens e rentabilidade
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                    <!-- Dashboards -->
+                    <div>
+                        <div class="section-title">Dashboards</div>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="action-card">
+                                <div class="action-icon orange">
+                                    <i class="fas fa-file-invoice-dollar"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">DRE Gerencial</div>
+                                    <div class="action-desc">Demonstrativo de Resultado com margens</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
 
-                            <a href="https://bi.alsultan.tech/dashboard/11" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                                        <i class="fas fa-chart-line text-blue-400 text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            Performance Diaria
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            KPIs do dia, vendas por hora e metas
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                            <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="action-card">
+                                <div class="action-icon blue">
+                                    <i class="fas fa-chart-line"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">Performance Diaria</div>
+                                    <div class="action-desc">KPIs do dia, vendas por hora e metas</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
 
-                            <a href="https://bi.alsultan.tech/dashboard/12" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                                        <i class="fas fa-store text-purple-400 text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            Franquias e Royalties
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            Performance das franquias e calculo de royalties
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                            <a href="https://bi.alsultan.tech/dashboard/12" target="_blank" class="action-card">
+                                <div class="action-icon purple">
+                                    <i class="fas fa-store"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">Franquias e Royalties</div>
+                                    <div class="action-desc">Performance e calculo de royalties</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
 
-                            <a href="https://bi.alsultan.tech/dashboard/5" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center">
-                                        <i class="fas fa-home text-green-400 text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            Visao Geral - Vendas
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            Painel principal com visao consolidada
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                            <a href="https://bi.alsultan.tech/dashboard/5" target="_blank" class="action-card">
+                                <div class="action-icon green">
+                                    <i class="fas fa-home"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">Visao Geral - Vendas</div>
+                                    <div class="action-desc">Painel principal com visao consolidada</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
-
                         </div>
-                    </section>
+                    </div>
 
-                    <!-- MANUAIS -->
-                    <section>
-                        <h2 class="text-sm text-sultan-cream/50 uppercase tracking-wider mb-4">Documentacao</h2>
-                        <div class="space-y-3">
-
-                            <a href="../bi/tutorials/MANUAL-GERAL-BI.html" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-sultan-gold/20 flex items-center justify-center">
-                                        <i class="fas fa-book text-sultan-gold text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            Manual Geral BI
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            Guia completo para todos os usuarios
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                    <!-- Documentation -->
+                    <div>
+                        <div class="section-title">Documentacao</div>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <a href="../bi/tutorials/MANUAL-GERAL-BI.html" target="_blank" class="action-card">
+                                <div class="action-icon gold">
+                                    <i class="fas fa-book"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">Manual Geral BI</div>
+                                    <div class="action-desc">Guia completo para todos os usuarios</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
 
-                            <a href="../bi/tutorials/MANUAL-DIRETORIA-BI.html" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-blue-900/40 flex items-center justify-center">
-                                        <i class="fas fa-crown text-blue-300 text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            Manual Diretoria
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            Visao executiva e indicadores estrategicos
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                            <a href="../bi/tutorials/MANUAL-DIRETORIA-BI.html" target="_blank" class="action-card">
+                                <div class="action-icon purple">
+                                    <i class="fas fa-crown"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">Manual Diretoria</div>
+                                    <div class="action-desc">Visao executiva e indicadores estrategicos</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
 
-                            <a href="../bi/tutorials/MANUAL-GERENTES-BI.html" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-cyan-500/20 flex items-center justify-center">
-                                        <i class="fas fa-user-tie text-cyan-400 text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            Manual Gerentes
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            Operacoes diarias e gestao de filial
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                            <a href="../bi/tutorials/MANUAL-GERENTES-BI.html" target="_blank" class="action-card">
+                                <div class="action-icon teal">
+                                    <i class="fas fa-user-tie"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">Manual Gerentes</div>
+                                    <div class="action-desc">Operacoes diarias e gestao de filial</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
 
-                            <a href="../bi/tutorials/MANUAL-ANALISTAS-BI.html" target="_blank"
-                               class="action-card p-4 rounded-xl block group">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                                        <i class="fas fa-user-cog text-purple-400 text-lg"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-medium text-sultan-cream group-hover:text-sultan-gold transition-colors">
-                                            Manual Analistas
-                                        </h3>
-                                        <p class="text-xs text-sultan-cream/50">
-                                            SQL, KPIs avancados e formulas
-                                        </p>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-sultan-gold/50 group-hover:text-sultan-gold group-hover:translate-x-1 transition-all"></i>
+                            <a href="../bi/tutorials/MANUAL-ANALISTAS-BI.html" target="_blank" class="action-card">
+                                <div class="action-icon blue">
+                                    <i class="fas fa-user-cog"></i>
                                 </div>
+                                <div class="action-content">
+                                    <div class="action-title">Manual Analistas</div>
+                                    <div class="action-desc">SQL, KPIs avancados e formulas</div>
+                                </div>
+                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
-
                         </div>
-                    </section>
+                    </div>
 
                 </div>
 
-                <!-- INFO CARDS -->
-                <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Info Cards -->
+                <div class="info-grid">
 
                     <!-- Filiais -->
-                    <div class="glass-card p-5 rounded-xl">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-9 h-9 rounded-lg bg-sultan-gold/20 flex items-center justify-center">
-                                <i class="fas fa-map-marker-alt text-sultan-gold text-sm"></i>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon">
+                                <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            <h3 class="font-medium text-sultan-cream">Filiais Conectadas</h3>
+                            <div class="info-card-title">Filiais Conectadas</div>
                         </div>
-                        <ul class="space-y-2 text-sm text-sultan-cream/70">
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                        <ul class="info-list">
+                            <li>
+                                <i class="fas fa-circle" style="color: var(--sultan-teal);"></i>
                                 <span>Juveve (Propria)</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                            <li>
+                                <i class="fas fa-circle" style="color: var(--sultan-teal);"></i>
                                 <span>Agua Verde (Propria)</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                            <li>
+                                <i class="fas fa-circle" style="color: #3b82f6;"></i>
                                 <span>SJP (Franquia)</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                            <li>
+                                <i class="fas fa-circle" style="color: #3b82f6;"></i>
                                 <span>Ponta Grossa (Franquia)</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                            <li>
+                                <i class="fas fa-circle" style="color: #3b82f6;"></i>
                                 <span>Bonfiglioli (Franquia)</span>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- Atualizacao -->
-                    <div class="glass-card p-5 rounded-xl">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-9 h-9 rounded-lg bg-sultan-gold/20 flex items-center justify-center">
-                                <i class="fas fa-sync-alt text-sultan-gold text-sm"></i>
+                    <!-- Sync -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon">
+                                <i class="fas fa-sync-alt"></i>
                             </div>
-                            <h3 class="font-medium text-sultan-cream">Sincronizacao</h3>
+                            <div class="info-card-title">Sincronizacao</div>
                         </div>
-                        <ul class="space-y-2 text-sm text-sultan-cream/70">
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check text-green-400 text-xs"></i>
+                        <ul class="info-list">
+                            <li>
+                                <i class="fas fa-check" style="color: var(--sultan-teal);"></i>
                                 <span>Dados sincronizados 3x ao dia</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-clock text-sultan-gold text-xs"></i>
+                            <li>
+                                <i class="fas fa-clock" style="color: var(--sultan-gold);"></i>
                                 <span>07h, 15h e 22h (Brasil)</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check text-green-400 text-xs"></i>
+                            <li>
+                                <i class="fas fa-check" style="color: var(--sultan-teal);"></i>
                                 <span>Fonte: ERP Cloudfy</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-layer-group text-purple-400 text-xs"></i>
+                            <li>
+                                <i class="fas fa-layer-group" style="color: #9333ea;"></i>
                                 <span>Pipeline Medallion</span>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- Contato -->
-                    <div class="glass-card p-5 rounded-xl">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-9 h-9 rounded-lg bg-sultan-gold/20 flex items-center justify-center">
-                                <i class="fas fa-headset text-sultan-gold text-sm"></i>
+                    <!-- Support -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon">
+                                <i class="fas fa-headset"></i>
                             </div>
-                            <h3 class="font-medium text-sultan-cream">Suporte Tecnico</h3>
+                            <div class="info-card-title">Suporte Tecnico</div>
                         </div>
-                        <ul class="space-y-2 text-sm text-sultan-cream/70">
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-envelope text-sultan-cream/40 text-xs"></i>
+                        <ul class="info-list">
+                            <li>
+                                <i class="fas fa-envelope" style="color: var(--brown-light);"></i>
                                 <span>suporte@aibotize.com</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fab fa-whatsapp text-green-400 text-xs"></i>
+                            <li>
+                                <i class="fab fa-whatsapp" style="color: var(--sultan-teal);"></i>
                                 <span>Chat no sistema</span>
                             </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-ticket-alt text-sultan-cream/40 text-xs"></i>
-                                <a href="https://app.alsultan.tech" target="_blank" class="hover:text-sultan-gold transition-colors">
-                                    Abrir chamado
-                                </a>
+                            <li>
+                                <i class="fas fa-ticket-alt" style="color: var(--brown-light);"></i>
+                                <a href="https://app.alsultan.tech" target="_blank">Abrir chamado</a>
                             </li>
                         </ul>
                     </div>
 
-                </section>
+                </div>
 
             </div>
 
-            <!-- FOOTER -->
-            <footer class="border-t border-sultan-gold/10 px-8 py-4">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-sultan-cream/40">
-                    <span>Al Sultan do Brasil | Centro de Comando v2.0</span>
-                    <span>Desenvolvido por aiBotize | 2025</span>
-                </div>
+            <!-- Footer -->
+            <footer class="main-footer">
+                <span>Al Sultan do Brasil | Centro de Comando v2.2</span>
+                <span>Desenvolvido por <a href="https://aibotize.com" target="_blank">aiBotize</a> | 2026</span>
             </footer>
 
         </main>
@@ -624,38 +1067,38 @@
     </div>
 
     <script>
-        // Populate user info
+        // Load user info
         function loadUserInfo() {
             const userData = JSON.parse(localStorage.getItem('alsultan_user') || '{}');
 
             document.getElementById('user-name').textContent = userData.name || 'Usuario';
-            document.getElementById('user-email').textContent = userData.email || '';
+            document.getElementById('user-role').textContent = userData.groupName || userData.role || 'Usuario';
 
             if (userData.picture) {
                 const avatar = document.getElementById('user-avatar');
-                avatar.innerHTML = `<img src="${userData.picture}" class="w-full h-full rounded-full object-cover" alt="Avatar">`;
+                avatar.innerHTML = '<img src="' + userData.picture + '" alt="Avatar">';
             }
 
             if (userData.isDemo) {
                 document.getElementById('user-name').textContent = 'Modo Demo';
-                document.getElementById('user-email').textContent = 'Funcionalidade limitada';
+                document.getElementById('user-role').textContent = 'Funcionalidade limitada';
             }
         }
 
-        // Update current date
+        // Update date
         function updateDate() {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const date = new Date().toLocaleDateString('pt-BR', options);
             document.getElementById('current-date').textContent = date.charAt(0).toUpperCase() + date.slice(1);
         }
 
-        // Logout function
+        // Logout
         function logout() {
             localStorage.removeItem('alsultan_user');
             window.location.href = 'login.html';
         }
 
-        // Initialize
+        // Init
         document.addEventListener('DOMContentLoaded', function() {
             loadUserInfo();
             updateDate();
