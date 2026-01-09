@@ -3,149 +3,638 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al Sultan | Acesso ao Sistema</title>
-    <meta name="description" content="Acesse o Centro de Comando Al Sultan com sua conta Google corporativa.">
+    <title>Al Sultan | Centro de Comando</title>
+    <meta name="description" content="Acesse o Centro de Comando Al Sultan - Exageradamente Gostoso">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%AE%3C/text%3E%3C/svg%3E">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Config (carrega antes do Google Identity) -->
+    <!-- Config -->
     <script src="assets/js/config.js"></script>
 
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sultan: {
-                            dark: '#0a1a0a',
-                            green: '#0d2d0d',
-                            emerald: '#1a4d1a',
-                            gold: '#d4af37',
-                            goldLight: '#f0d77a',
-                            cream: '#faf8f5',
-                            sand: '#e8e4dc'
-                        }
-                    },
-                    fontFamily: {
-                        display: ['Playfair Display', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
+        :root {
+            /* Al Sultan Brand Colors */
+            --sultan-orange: #ea5512;
+            --sultan-orange-dark: #c94510;
+            --sultan-orange-light: #ff6b2c;
+            --sultan-gold: #ffca07;
+            --sultan-gold-light: #ffe066;
+            --sultan-red: #e5123c;
+            --sultan-teal: #0bb0a0;
+
+            /* Neutral Tones */
+            --sand-light: #faf6f0;
+            --sand: #f5ebe0;
+            --sand-dark: #e6d5c3;
+            --cream: #fff8f0;
+            --brown-dark: #2d1810;
+            --brown-medium: #5c3d2e;
+
+            /* Gradients */
+            --gradient-warm: linear-gradient(135deg, #ea5512 0%, #ffca07 100%);
+            --gradient-sunset: linear-gradient(135deg, #ff6b2c 0%, #ea5512 50%, #c94510 100%);
+            --gradient-sand: linear-gradient(180deg, #faf6f0 0%, #f5ebe0 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #0a1a0a 0%, #0d2d0d 50%, #1a4d1a 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: var(--sand-light);
+            overflow-x: hidden;
+        }
+
+        /* ===== LAYOUT SPLIT ===== */
+        .login-container {
+            display: flex;
             min-height: 100vh;
         }
 
-        .gold-gradient {
-            background: linear-gradient(135deg, #d4af37 0%, #f0d77a 50%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* ===== LEFT SIDE - BRANDING ===== */
+        .brand-side {
+            flex: 1;
+            background: var(--gradient-sunset);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            overflow: hidden;
         }
 
-        .login-card {
-            background: rgba(13, 45, 13, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+        /* Arabic Pattern Overlay */
+        .brand-side::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M40 0L80 40L40 80L0 40zM40 10L70 40L40 70L10 40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: patternFloat 30s linear infinite;
         }
 
-        .google-btn {
-            background: #ffffff;
+        @keyframes patternFloat {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
+        }
+
+        /* Decorative circles */
+        .brand-side::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            pointer-events: none;
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .brand-logo {
+            width: 140px;
+            height: 140px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .brand-logo span {
+            font-size: 5rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .brand-tagline {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.95;
+            margin-bottom: 3rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .brand-tagline strong {
+            font-weight: 700;
+            color: var(--sultan-gold);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .brand-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
             transition: all 0.3s ease;
         }
 
+        .feature-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(10px);
+        }
+
+        .feature-item i {
+            width: 40px;
+            height: 40px;
+            background: var(--sultan-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brown-dark);
+            font-size: 1rem;
+        }
+
+        .feature-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* ===== RIGHT SIDE - LOGIN FORM ===== */
+        .form-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            background: var(--gradient-sand);
+            position: relative;
+        }
+
+        /* Decorative element */
+        .form-side::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--sultan-orange);
+            opacity: 0.03;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--brown-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: var(--brown-medium);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* Google Button */
+        .google-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.2rem 2rem;
+            background: white;
+            border: 2px solid var(--sand-dark);
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--brown-dark);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
         .google-btn:hover {
-            background: #f8f8f8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: var(--sultan-orange);
+            box-shadow: 0 8px 30px rgba(234, 85, 18, 0.15);
+            transform: translateY(-3px);
         }
 
-        .pattern-bg {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='%23d4af37' fill-opacity='0.03'/%3E%3C/svg%3E");
+        .google-btn:active {
+            transform: translateY(-1px);
         }
 
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        .google-btn svg {
+            width: 24px;
+            height: 24px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
         }
 
-        .pulse-ring {
-            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--sand-dark), transparent);
         }
 
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1); opacity: 0.3; }
-            100% { transform: scale(0.8); opacity: 0.5; }
+        .divider span {
+            font-size: 0.8rem;
+            color: var(--brown-medium);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        /* Access Levels */
+        .access-levels {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .access-levels h3 {
+            font-size: 0.85rem;
+            color: var(--brown-medium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .access-levels h3 i {
+            color: var(--sultan-orange);
+        }
+
+        .level-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--sand);
+            transition: all 0.2s ease;
+        }
+
+        .level-item:last-child {
+            border-bottom: none;
+        }
+
+        .level-item:hover {
+            padding-left: 0.5rem;
+        }
+
+        .level-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .level-icon.crown {
+            background: linear-gradient(135deg, var(--sultan-gold) 0%, #ffa500 100%);
+            color: white;
+        }
+
+        .level-icon.chart {
+            background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-red) 100%);
+            color: white;
+        }
+
+        .level-icon.store {
+            background: linear-gradient(135deg, var(--sultan-teal) 0%, #088f82 100%);
+            color: white;
+        }
+
+        .level-item span {
+            font-size: 0.9rem;
+            color: var(--brown-dark);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            color: var(--brown-medium);
+            font-size: 0.85rem;
+        }
+
+        .login-footer a {
+            color: var(--sultan-orange);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .login-footer a:hover {
+            color: var(--sultan-orange-dark);
+        }
+
+        .version-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--sand);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--brown-medium);
+        }
+
+        /* ===== LOADING OVERLAY ===== */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(45, 24, 16, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loader {
+            width: 70px;
+            height: 70px;
+            position: relative;
+        }
+
+        .loader::before,
+        .loader::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 4px solid transparent;
+        }
+
+        .loader::before {
+            border-top-color: var(--sultan-orange);
+            animation: spin 1s linear infinite;
+        }
+
+        .loader::after {
+            border-right-color: var(--sultan-gold);
+            animation: spin 0.5s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* ===== TOASTS ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 200;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, var(--sultan-red) 0%, #c41030 100%);
+            color: white;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--sultan-teal) 0%, #088f82 100%);
+            color: white;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .brand-side {
+                padding: 3rem 2rem;
+                min-height: 50vh;
+            }
+
+            .brand-title {
+                font-size: 3rem;
+            }
+
+            .brand-features {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .feature-item {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .feature-item span {
+                display: none;
+            }
+
+            .form-side {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .brand-side {
+                padding: 2rem 1.5rem;
+                min-height: 40vh;
+            }
+
+            .brand-logo {
+                width: 100px;
+                height: 100px;
+                border-radius: 24px;
+            }
+
+            .brand-logo span {
+                font-size: 3.5rem;
+            }
+
+            .brand-title {
+                font-size: 2.5rem;
+            }
+
+            .brand-tagline {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .brand-features {
+                display: none;
+            }
+
+            .login-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .google-btn {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .brand-content {
+            animation: fadeInUp 0.8s ease-out;
         }
     </style>
 </head>
-<body class="antialiased font-sans pattern-bg flex items-center justify-center min-h-screen p-6">
+<body>
+    <div class="login-container">
+        <!-- Left Side - Branding -->
+        <div class="brand-side">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <span>&#127790;</span>
+                </div>
+                <h1 class="brand-title">AL SULTAN</h1>
+                <p class="brand-tagline">Exageradamente <strong>Gostoso</strong></p>
 
-    <!-- Background Elements -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-sultan-gold/5 blur-3xl floating"></div>
-        <div class="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-sultan-emerald/10 blur-3xl floating" style="animation-delay: -3s;"></div>
-    </div>
-
-    <!-- Login Container -->
-    <div class="relative z-10 w-full max-w-md">
-
-        <!-- Logo and Title -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-sultan-gold/20 mb-6 relative">
-                <span class="text-4xl">&#127984;</span>
-                <div class="absolute inset-0 rounded-2xl border-2 border-sultan-gold/30 pulse-ring"></div>
+                <div class="brand-features">
+                    <div class="feature-item">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Dashboards em tempo real</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-store"></i>
+                        <span>Gestao de todas as filiais</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Insights com IA</span>
+                    </div>
+                </div>
             </div>
-            <h1 class="font-display text-3xl md:text-4xl font-bold text-sultan-cream mb-2">
-                Al Sultan
-            </h1>
-            <p class="text-sultan-gold/80 text-sm uppercase tracking-widest">
-                Centro de Comando
-            </p>
         </div>
 
-        <!-- Login Card -->
-        <div class="login-card rounded-3xl p-8 md:p-10">
+        <!-- Right Side - Login Form -->
+        <div class="form-side">
+            <div class="login-card">
+                <div class="login-header">
+                    <h2>Centro de Comando</h2>
+                    <p>Acesse com sua conta Google corporativa</p>
+                </div>
 
-            <div class="text-center mb-8">
-                <h2 class="font-display text-xl text-sultan-cream mb-2">
-                    Acesse o Sistema
-                </h2>
-                <p class="text-sultan-cream/60 text-sm">
-                    Use sua conta Google corporativa para entrar
-                </p>
-            </div>
-
-            <!-- Google Sign In Button -->
-            <div class="space-y-4">
-                <button id="google-signin-btn" onclick="handleGoogleSignIn()"
-                        class="google-btn w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-gray-700 font-medium shadow-lg">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                <!-- Google Sign In Button -->
+                <button id="google-signin-btn" class="google-btn" onclick="handleGoogleSignIn()">
+                    <svg viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -153,67 +642,64 @@
                     </svg>
                     <span>Entrar com Google</span>
                 </button>
-            </div>
 
-            <!-- Divider -->
-            <div class="flex items-center gap-4 my-8">
-                <div class="flex-1 h-px bg-sultan-gold/20"></div>
-                <span class="text-sultan-cream/40 text-xs uppercase tracking-wider">Acesso Restrito</span>
-                <div class="flex-1 h-px bg-sultan-gold/20"></div>
-            </div>
+                <!-- Divider -->
+                <div class="divider">
+                    <span>Acesso Hierarquico</span>
+                </div>
 
-            <!-- Hierarchy Info -->
-            <div class="space-y-3 text-sm text-sultan-cream/50">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-crown text-sultan-gold/60 w-5 text-center"></i>
-                    <span>Proprietarios e Diretoria</span>
+                <!-- Access Levels -->
+                <div class="access-levels">
+                    <h3><i class="fas fa-shield-halved"></i> Niveis de Acesso</h3>
+                    <div class="level-item">
+                        <div class="level-icon crown">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <span>Proprietarios e Diretoria</span>
+                    </div>
+                    <div class="level-item">
+                        <div class="level-icon chart">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span>Equipe de Gestao e Analistas</span>
+                    </div>
+                    <div class="level-item">
+                        <div class="level-icon store">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <span>Gerentes de Filiais</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-chart-line text-sultan-gold/60 w-5 text-center"></i>
-                    <span>Equipe de Gestao e Analistas</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-store text-sultan-gold/60 w-5 text-center"></i>
-                    <span>Gerentes de Filiais</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-shield-alt text-sultan-gold/60 w-5 text-center"></i>
-                    <span>Acesso baseado em hierarquia</span>
+
+                <!-- Footer -->
+                <div class="login-footer">
+                    <p>Al Sultan do Brasil &copy; 2026</p>
+                    <p>Desenvolvido por <a href="https://aibotize.com" target="_blank">aiBotize</a></p>
+                    <div class="version-badge">
+                        <i class="fas fa-code-branch"></i>
+                        <span>v<span id="version">2.1</span></span>
+                    </div>
                 </div>
             </div>
-
         </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-8 text-sultan-cream/30 text-xs">
-            <p>Al Sultan do Brasil &copy; 2026</p>
-            <p class="mt-1">Desenvolvido por aiBotize | v<span id="version">2.1</span></p>
-        </div>
-
     </div>
 
     <!-- Loading Overlay -->
-    <div id="loading-overlay" class="fixed inset-0 bg-sultan-dark/90 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-        <div class="text-center">
-            <div class="w-16 h-16 border-4 border-sultan-gold/30 border-t-sultan-gold rounded-full animate-spin mb-4 mx-auto"></div>
-            <p class="text-sultan-cream" id="loading-text">Autenticando...</p>
-        </div>
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loader"></div>
+        <p class="loading-text" id="loading-text">Autenticando...</p>
     </div>
 
     <!-- Error Toast -->
-    <div id="error-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-red-500/90 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
-        <div class="flex items-center gap-3">
-            <i class="fas fa-exclamation-circle"></i>
-            <span id="error-message">Erro ao autenticar</span>
-        </div>
+    <div id="error-toast" class="toast error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="error-message">Erro ao autenticar</span>
     </div>
 
     <!-- Success Toast -->
-    <div id="success-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-green-600/90 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
-        <div class="flex items-center gap-3">
-            <i class="fas fa-check-circle"></i>
-            <span id="success-message">Login realizado com sucesso!</span>
-        </div>
+    <div id="success-toast" class="toast success">
+        <i class="fas fa-check-circle"></i>
+        <span id="success-message">Login realizado com sucesso!</span>
     </div>
 
     <script>
@@ -337,7 +823,6 @@
                 }
             } else {
                 // Usuario autorizado por dominio mas nao cadastrado
-                // Atribuir nivel basico
                 role = 'user';
                 groupName = 'All Users';
             }
@@ -437,22 +922,23 @@
         // =========================================================================
 
         function showLoading(show, message = 'Autenticando...') {
-            document.getElementById('loading-overlay').classList.toggle('hidden', !show);
+            const overlay = document.getElementById('loading-overlay');
+            overlay.classList.toggle('active', show);
             document.getElementById('loading-text').textContent = message;
         }
 
         function showError(message) {
             const toast = document.getElementById('error-toast');
             document.getElementById('error-message').textContent = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 4000);
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
         function showSuccess(message) {
             const toast = document.getElementById('success-toast');
             document.getElementById('success-message').textContent = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 3000);
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         // =========================================================================
