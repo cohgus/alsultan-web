@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Al Sultan | Centro de Comando</title>
-    <meta name="description" content="Centro de Comando Al Sultan - Exageradamente Gostoso">
+    <meta name="description" content="Centro de Comando Al Sultan - Portal Executivo de Gestao">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%AE%3C/text%3E%3C/svg%3E">
@@ -12,15 +12,14 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Config -->
     <script src="assets/js/config.js"></script>
     <script>
-        // Fallback robusto se config.js nao carregar
         if (typeof CONFIG === 'undefined') {
             console.warn('CONFIG nao carregou - usando fallback');
             window.CONFIG = {
@@ -33,16 +32,18 @@
                 urls: {
                     portal: 'https://alsultan.tech',
                     metabase: 'https://bi.alsultan.tech',
-                    n8n: 'https://flows.alsultan.tech',
-                    directus: 'https://directus.alsultan.tech',
-                    support: 'https://app.alsultan.tech'
+                    support: 'https://app.alsultan.tech',
+                    pdf: 'https://pdf.alsultan.tech'
                 },
-                version: '2.3'
+                version: '4.0'
             };
         }
     </script>
 
     <style>
+        /* =============================================
+           CSS CUSTOM PROPERTIES
+           ============================================= */
         :root {
             /* Al Sultan Brand Colors */
             --sultan-orange: #ea5512;
@@ -52,90 +53,143 @@
             --sultan-gold-light: #ffe066;
             --sultan-red: #e5123c;
             --sultan-teal: #0bb0a0;
+            --sultan-teal-dark: #099084;
 
-            /* Neutral Tones */
-            --sand-light: #faf6f0;
-            --sand: #f5ebe0;
-            --sand-dark: #e6d5c3;
-            --cream: #fff8f0;
-            --brown-dark: #2d1810;
-            --brown-medium: #5c3d2e;
-            --brown-light: #8b6b5a;
+            /* Dark Theme */
+            --dark-bg: #0d0705;
+            --dark-surface: #1a0f0a;
+            --dark-surface-2: #251712;
+            --dark-surface-3: #2d1f18;
 
-            /* Sidebar */
-            --sidebar-bg: #1a0f0a;
-            --sidebar-hover: rgba(234, 85, 18, 0.1);
-            --sidebar-active: rgba(234, 85, 18, 0.15);
+            /* Text */
+            --text-primary: #faf6f0;
+            --text-secondary: rgba(250, 246, 240, 0.7);
+            --text-muted: rgba(250, 246, 240, 0.4);
+
+            /* Borders & Effects */
+            --border-subtle: rgba(234, 85, 18, 0.12);
+            --border-hover: rgba(234, 85, 18, 0.25);
+            --glow-orange: 0 0 40px rgba(234, 85, 18, 0.15);
+            --glow-teal: 0 0 40px rgba(11, 176, 160, 0.15);
+
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.25rem;
+
+            /* Layout */
+            --sidebar-width: 260px;
+            --header-height: 64px;
         }
 
-        * {
+        /* =============================================
+           RESET & BASE
+           ============================================= */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--sand-light);
-            color: var(--brown-dark);
-            min-height: 100vh;
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* ===== LAYOUT ===== */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* =============================================
+           LAYOUT
+           ============================================= */
         .app-container {
             display: flex;
             min-height: 100vh;
         }
 
-        /* ===== SIDEBAR ===== */
+        /* =============================================
+           SIDEBAR
+           ============================================= */
         .sidebar {
-            width: 260px;
-            background: linear-gradient(180deg, var(--sidebar-bg) 0%, #2d1810 100%);
-            display: flex;
-            flex-direction: column;
+            width: var(--sidebar-width);
+            background: var(--dark-surface);
+            border-right: 1px solid var(--border-subtle);
             position: fixed;
             height: 100vh;
-            z-index: 50;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        /* Pattern overlay */
         .sidebar::before {
             content: '';
             position: absolute;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 0L60 30L30 60L0 30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background:
+                radial-gradient(ellipse at top left, rgba(234, 85, 18, 0.05) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ea5512' fill-opacity='0.02'%3E%3Cpath d='M20 0L40 20L20 40L0 20z'/%3E%3C/g%3E%3C/svg%3E");
             pointer-events: none;
         }
 
         .sidebar-content {
             position: relative;
-            z-index: 1;
             display: flex;
             flex-direction: column;
             height: 100%;
+            z-index: 1;
         }
 
+        /* Logo */
         .sidebar-logo {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(234, 85, 18, 0.1);
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .logo-wrapper {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: var(--space-md);
         }
 
         .logo-icon {
             width: 48px;
             height: 48px;
             background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-gold) 100%);
-            border-radius: 12px;
+            border-radius: var(--radius-xl);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            box-shadow: 0 4px 15px rgba(234, 85, 18, 0.3);
+            box-shadow: 0 4px 20px rgba(234, 85, 18, 0.3);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 4px 20px rgba(234, 85, 18, 0.3); }
+            50% { box-shadow: 0 4px 30px rgba(234, 85, 18, 0.5); }
         }
 
         .logo-text {
@@ -146,7 +200,8 @@
             font-family: 'Playfair Display', serif;
             font-size: 1.25rem;
             font-weight: 700;
-            color: white;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
 
         .logo-subtitle {
@@ -154,48 +209,52 @@
             color: var(--sultan-gold);
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-weight: 500;
         }
 
         /* Navigation */
         .sidebar-nav {
             flex: 1;
-            padding: 1rem 0;
+            padding: var(--space-md) 0;
             overflow-y: auto;
         }
 
         .nav-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-lg);
         }
 
         .nav-section-title {
-            padding: 0 1.5rem;
-            margin-bottom: 0.5rem;
+            padding: 0 var(--space-lg);
+            margin-bottom: var(--space-sm);
             font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.3);
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255, 255, 255, 0.6);
+            gap: var(--space-md);
+            padding: 0.7rem var(--space-lg);
+            color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all var(--transition-fast);
             border-left: 3px solid transparent;
+            position: relative;
         }
 
         .nav-link:hover {
-            background: var(--sidebar-hover);
-            color: white;
+            background: rgba(234, 85, 18, 0.08);
+            color: var(--text-primary);
         }
 
         .nav-link.active {
-            background: var(--sidebar-active);
-            color: white;
+            background: rgba(234, 85, 18, 0.12);
+            color: var(--sultan-orange);
             border-left-color: var(--sultan-orange);
         }
 
@@ -203,31 +262,32 @@
             width: 20px;
             text-align: center;
             font-size: 0.9rem;
+            opacity: 0.8;
         }
 
         .nav-link .external-icon {
             margin-left: auto;
-            font-size: 0.7rem;
-            opacity: 0.4;
+            font-size: 0.65rem;
+            opacity: 0.3;
         }
 
-        /* User section */
+        /* User Section */
         .sidebar-user {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(234, 85, 18, 0.1);
+            padding: var(--space-md) var(--space-lg);
+            border-top: 1px solid var(--border-subtle);
             background: rgba(0, 0, 0, 0.2);
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: var(--space-md);
         }
 
         .user-avatar {
             width: 40px;
             height: 40px;
-            border-radius: 10px;
+            border-radius: var(--radius-lg);
             background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-gold) 100%);
             display: flex;
             align-items: center;
@@ -235,6 +295,7 @@
             color: white;
             font-size: 0.9rem;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .user-avatar img {
@@ -251,7 +312,7 @@
         .user-name {
             font-size: 0.85rem;
             font-weight: 600;
-            color: white;
+            color: var(--text-primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -260,25 +321,30 @@
         .user-role {
             font-size: 0.7rem;
             color: var(--sultan-gold);
+            font-weight: 500;
         }
 
         .logout-btn {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-muted);
             cursor: pointer;
-            padding: 0.5rem;
-            transition: color 0.2s;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
         }
 
         .logout-btn:hover {
             color: var(--sultan-red);
+            background: rgba(229, 18, 60, 0.1);
         }
 
-        /* ===== MAIN CONTENT ===== */
+        /* =============================================
+           MAIN CONTENT
+           ============================================= */
         .main-content {
             flex: 1;
-            margin-left: 260px;
+            margin-left: var(--sidebar-width);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -286,43 +352,64 @@
 
         /* Header */
         .main-header {
-            background: white;
-            padding: 1.25rem 2rem;
-            border-bottom: 1px solid var(--sand-dark);
+            background: var(--dark-surface);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 var(--space-xl);
+            height: var(--header-height);
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
-            z-index: 40;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: var(--space-sm);
         }
 
         .header-title h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--brown-dark);
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
 
         .header-title p {
-            font-size: 0.85rem;
-            color: var(--brown-medium);
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
         .header-status {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: var(--space-md);
         }
 
         .status-badge {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
             background: rgba(11, 176, 160, 0.1);
-            border-radius: 20px;
-            font-size: 0.8rem;
+            border: 1px solid rgba(11, 176, 160, 0.2);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
             color: var(--sultan-teal);
         }
 
@@ -331,261 +418,582 @@
             height: 8px;
             border-radius: 50%;
             background: var(--sultan-teal);
-            animation: pulse 2s infinite;
+            animation: status-pulse 2s ease-in-out infinite;
         }
 
-        @keyframes pulse {
+        @keyframes status-pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.9); }
+            50% { opacity: 0.6; transform: scale(0.85); }
         }
 
         .version-tag {
-            font-size: 0.75rem;
-            color: var(--brown-light);
-            padding: 0.25rem 0.75rem;
-            background: var(--sand);
-            border-radius: 10px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--dark-surface-2);
+            border-radius: var(--radius-sm);
+            font-weight: 500;
         }
 
         /* Content Area */
         .content-area {
             flex: 1;
-            padding: 2rem;
+            padding: var(--space-xl);
+            background: var(--dark-bg);
         }
 
-        /* Section Title */
-        .section-title {
-            font-size: 0.75rem;
-            color: var(--brown-medium);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-        }
-
-        .quick-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1rem;
-            background: white;
-            border: 1px solid var(--sand-dark);
-            border-radius: 10px;
-            color: var(--brown-dark);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .quick-btn:hover {
-            border-color: var(--sultan-orange);
-            box-shadow: 0 4px 15px rgba(234, 85, 18, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .quick-btn i {
-            color: var(--sultan-orange);
-        }
-
-        /* Infrastructure Status */
-        .infra-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .infra-header {
+        /* Section Headers */
+        .section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-lg);
         }
 
-        .infra-title {
+        .section-title {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-weight: 600;
-            color: var(--brown-dark);
+            gap: var(--space-md);
         }
 
-        .infra-title i {
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-badge {
+            font-size: 0.65rem;
+            padding: var(--space-xs) var(--space-sm);
+            background: rgba(234, 85, 18, 0.15);
+            color: var(--sultan-orange);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--sultan-teal);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .section-link:hover {
             color: var(--sultan-orange);
         }
 
-        .infra-updated {
+        .section-link i {
             font-size: 0.75rem;
-            color: var(--brown-light);
+            transition: transform var(--transition-fast);
         }
 
-        .infra-grid {
+        .section-link:hover i {
+            transform: translateX(4px);
+        }
+
+        /* =============================================
+           DASHBOARD CARDS (BI Section)
+           ============================================= */
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.75rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
         }
 
-        .infra-item {
+        .dashboard-card {
+            position: relative;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem;
-            background: var(--sand-light);
-            border-radius: 10px;
-        }
-
-        .infra-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--sultan-teal);
-        }
-
-        .infra-item-label {
-            font-size: 0.65rem;
-            color: var(--brown-light);
-            text-transform: uppercase;
-        }
-
-        .infra-item-value {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--brown-dark);
-        }
-
-        .infra-footer {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--sand);
-            font-size: 0.75rem;
-            color: var(--brown-light);
-        }
-
-        .infra-footer span i {
-            margin-right: 0.25rem;
-        }
-
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (max-width: 1200px) {
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Action Cards */
-        .action-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: white;
-            border: 1px solid var(--sand-dark);
-            border-radius: 12px;
+            flex-direction: column;
+            padding: var(--space-lg);
+            background: var(--dark-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all var(--transition-normal);
+            overflow: hidden;
         }
 
-        .action-card:hover {
-            border-color: var(--sultan-orange);
-            box-shadow: 0 8px 25px rgba(234, 85, 18, 0.1);
-            transform: translateY(-2px);
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--sultan-orange), var(--sultan-gold));
+            opacity: 0;
+            transition: opacity var(--transition-fast);
         }
 
-        .action-icon {
+        .dashboard-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--glow-orange);
+        }
+
+        .dashboard-card:hover::before {
+            opacity: 1;
+        }
+
+        .dashboard-icon {
             width: 48px;
             height: 48px;
-            border-radius: 12px;
+            border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
+            margin-bottom: var(--space-md);
         }
 
-        .action-icon.orange { background: rgba(234, 85, 18, 0.1); color: var(--sultan-orange); }
-        .action-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .action-icon.purple { background: rgba(147, 51, 234, 0.1); color: #9333ea; }
-        .action-icon.green { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
-        .action-icon.gold { background: rgba(255, 202, 7, 0.15); color: #d4a000; }
-        .action-icon.teal { background: rgba(11, 176, 160, 0.1); color: var(--sultan-teal); }
+        .dashboard-icon.orange { background: rgba(234, 85, 18, 0.15); color: var(--sultan-orange); }
+        .dashboard-icon.blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .dashboard-icon.purple { background: rgba(147, 51, 234, 0.15); color: #9333ea; }
+        .dashboard-icon.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
 
-        .action-content {
+        .dashboard-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .dashboard-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .dashboard-arrow {
+            position: absolute;
+            bottom: var(--space-lg);
+            right: var(--space-lg);
+            color: var(--text-muted);
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all var(--transition-fast);
+        }
+
+        .dashboard-card:hover .dashboard-arrow {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--sultan-orange);
+        }
+
+        /* =============================================
+           GOOGLE DRIVE SECTION
+           ============================================= */
+        .drive-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .drive-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: var(--dark-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            text-decoration: none;
+            transition: all var(--transition-normal);
+        }
+
+        .drive-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--glow-orange);
+        }
+
+        .drive-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .drive-icon.financeiro { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .drive-icon.contratos { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+        .drive-icon.operacional { background: rgba(11, 176, 160, 0.15); color: var(--sultan-teal); }
+        .drive-icon.relatorios { background: rgba(234, 85, 18, 0.15); color: var(--sultan-orange); }
+
+        .drive-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .drive-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .drive-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .drive-arrow {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all var(--transition-fast);
+        }
+
+        .drive-card:hover .drive-arrow {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--sultan-orange);
+        }
+
+        /* =============================================
+           PDF TOOLS SECTION (Stirling PDF)
+           ============================================= */
+        .pdf-section {
+            background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pdf-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(234, 85, 18, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .pdf-icon-wrapper {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-red) 100%);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 32px rgba(234, 85, 18, 0.3);
+            flex-shrink: 0;
+        }
+
+        .pdf-content {
             flex: 1;
         }
 
-        .action-title {
+        .pdf-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
             font-weight: 600;
-            color: var(--brown-dark);
-            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
         }
 
-        .action-desc {
+        .pdf-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+        }
+
+        .pdf-actions {
+            display: flex;
+            gap: var(--space-md);
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0.75rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--sultan-orange);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--sultan-orange-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(234, 85, 18, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-hover);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(234, 85, 18, 0.1);
+            border-color: var(--sultan-orange);
+        }
+
+        /* =============================================
+           ENTREGAS AIBOTIZE SECTION
+           ============================================= */
+        .entregas-section {
+            background: var(--dark-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .entregas-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .entregas-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .entregas-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--sultan-teal) 0%, #0dd9c5 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .entregas-title-group h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .entregas-title-group p {
             font-size: 0.8rem;
-            color: var(--brown-light);
+            color: var(--text-muted);
         }
 
-        .action-arrow {
+        .sla-badge {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: rgba(11, 176, 160, 0.1);
+            border: 1px solid rgba(11, 176, 160, 0.2);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--sultan-teal);
+        }
+
+        .sla-badge i {
+            font-size: 0.9rem;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+        }
+
+        .report-card {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: var(--dark-surface-2);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            text-decoration: none;
+            transition: all var(--transition-normal);
+        }
+
+        .report-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .report-card.current {
+            border-color: var(--sultan-teal);
+            background: rgba(11, 176, 160, 0.05);
+        }
+
+        .report-badge {
+            position: absolute;
+            top: -8px;
+            right: var(--space-md);
+            padding: 3px 10px;
+            background: var(--sultan-teal);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 50px;
+        }
+
+        .report-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-lg);
+            background: rgba(234, 85, 18, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--sultan-orange);
-            opacity: 0.5;
-            transition: all 0.2s;
+            font-size: 1.1rem;
+            flex-shrink: 0;
         }
 
-        .action-card:hover .action-arrow {
-            opacity: 1;
-            transform: translateX(4px);
+        .report-content {
+            flex: 1;
         }
 
-        /* Info Cards */
+        .report-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .report-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .report-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .report-meta i {
+            color: var(--sultan-teal);
+            font-size: 0.7rem;
+        }
+
+        /* Timeline */
+        .timeline-section {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .timeline-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-md);
+        }
+
+        .timeline {
+            display: flex;
+            gap: var(--space-lg);
+            overflow-x: auto;
+            padding-bottom: var(--space-sm);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--dark-surface-2);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .timeline-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .timeline-dot.completed { background: var(--sultan-teal); }
+        .timeline-dot.in-progress { background: var(--sultan-gold); animation: status-pulse 1.5s infinite; }
+        .timeline-dot.pending { background: var(--text-muted); }
+
+        .timeline-text {
+            color: var(--text-secondary);
+        }
+
+        /* =============================================
+           INFO CARDS GRID
+           ============================================= */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (max-width: 1024px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
         }
 
         .info-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.25rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background: var(--dark-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
         }
 
         .info-card-header {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .info-card-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
             background: linear-gradient(135deg, var(--sultan-orange) 0%, var(--sultan-gold) 100%);
             display: flex;
             align-items: center;
@@ -596,7 +1004,8 @@
 
         .info-card-title {
             font-weight: 600;
-            color: var(--brown-dark);
+            font-size: 0.95rem;
+            color: var(--text-primary);
         }
 
         .info-list {
@@ -606,11 +1015,11 @@
         .info-list li {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0;
+            gap: var(--space-sm);
+            padding: var(--space-sm) 0;
             font-size: 0.85rem;
-            color: var(--brown-medium);
-            border-bottom: 1px solid var(--sand);
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .info-list li:last-child {
@@ -620,53 +1029,55 @@
         .info-list li i {
             font-size: 0.7rem;
             width: 16px;
+            text-align: center;
         }
 
         .info-list a {
-            color: var(--sultan-orange);
+            color: var(--sultan-teal);
             text-decoration: none;
+            transition: color var(--transition-fast);
         }
 
         .info-list a:hover {
-            text-decoration: underline;
+            color: var(--sultan-orange);
         }
 
-        /* Footer */
+        /* =============================================
+           FOOTER
+           ============================================= */
         .main-footer {
-            background: white;
-            border-top: 1px solid var(--sand-dark);
-            padding: 1rem 2rem;
+            background: var(--dark-surface);
+            border-top: 1px solid var(--border-subtle);
+            padding: var(--space-md) var(--space-xl);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.8rem;
-            color: var(--brown-light);
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
 
         .main-footer a {
-            color: var(--sultan-orange);
+            color: var(--sultan-teal);
             text-decoration: none;
+            transition: color var(--transition-fast);
         }
 
-        /* ===== MOBILE MENU TOGGLE ===== */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--brown-dark);
-            cursor: pointer;
-            padding: 0.5rem;
+        .main-footer a:hover {
+            color: var(--sultan-orange);
         }
 
+        /* =============================================
+           MOBILE OVERLAY
+           ============================================= */
         .sidebar-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 45;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 90;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity var(--transition-normal);
+            backdrop-filter: blur(4px);
         }
 
         .sidebar-overlay.active {
@@ -677,17 +1088,48 @@
         .sidebar-close-btn {
             display: none;
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: var(--space-md);
+            right: var(--space-md);
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-muted);
             font-size: 1.25rem;
             cursor: pointer;
-            z-index: 51;
+            padding: var(--space-sm);
+            z-index: 101;
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* =============================================
+           RESPONSIVE DESIGN
+           ============================================= */
+        @media (max-width: 1280px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .drive-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+            .pdf-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .pdf-content {
+                text-align: center;
+            }
+            .pdf-desc {
+                max-width: none;
+            }
+        }
+
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
@@ -699,7 +1141,7 @@
 
             .sidebar {
                 transform: translateX(-100%);
-                transition: transform 0.3s ease;
+                transition: transform var(--transition-normal);
             }
 
             .sidebar.open {
@@ -711,32 +1153,96 @@
             }
 
             .content-area {
-                padding: 1rem;
+                padding: var(--space-md);
+            }
+
+            .main-header {
+                padding: 0 var(--space-md);
             }
 
             .header-title h1 {
-                font-size: 1.25rem;
+                font-size: 1.125rem;
             }
 
             .header-title p {
                 display: none;
             }
 
-            .quick-actions {
+            .dashboard-grid,
+            .drive-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+
+            .pdf-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .timeline {
                 flex-direction: column;
             }
 
-            .quick-btn {
-                width: 100%;
-                justify-content: flex-start;
+            .main-footer {
+                flex-direction: column;
+                gap: var(--space-sm);
+                text-align: center;
             }
         }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--sand-light); }
-        ::-webkit-scrollbar-thumb { background: var(--sand-dark); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--brown-light); }
+        /* =============================================
+           SCROLLBAR
+           ============================================= */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark-surface-3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(234, 85, 18, 0.3);
+        }
+
+        /* =============================================
+           ANIMATIONS
+           ============================================= */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
     </style>
 </head>
 <body>
@@ -800,20 +1306,34 @@
                     </div>
 
                     <div class="nav-section">
-                        <div class="nav-section-title">Sistemas</div>
+                        <div class="nav-section-title">Business Intelligence</div>
                         <a href="https://bi.alsultan.tech" target="_blank" class="nav-link">
                             <i class="fas fa-chart-pie"></i>
-                            <span>Metabase BI</span>
+                            <span>Dashboards BI</span>
                             <i class="fas fa-external-link-alt external-icon"></i>
                         </a>
-                        <a href="https://flows.alsultan.tech" target="_blank" class="nav-link">
-                            <i class="fas fa-cogs"></i>
-                            <span>n8n Flows</span>
+                        <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="nav-link">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>DRE Gerencial</span>
                             <i class="fas fa-external-link-alt external-icon"></i>
                         </a>
-                        <a href="https://directus.alsultan.tech" target="_blank" class="nav-link">
-                            <i class="fas fa-database"></i>
-                            <span>Directus</span>
+                        <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Performance Diaria</span>
+                            <i class="fas fa-external-link-alt external-icon"></i>
+                        </a>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Ferramentas</div>
+                        <a href="https://pdf.alsultan.tech" target="_blank" class="nav-link">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>Stirling PDF</span>
+                            <i class="fas fa-external-link-alt external-icon"></i>
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/FOLDER_ROOT_ID" target="_blank" class="nav-link">
+                            <i class="fab fa-google-drive"></i>
+                            <span>Google Drive</span>
                             <i class="fas fa-external-link-alt external-icon"></i>
                         </a>
                     </div>
@@ -852,220 +1372,254 @@
 
             <!-- Header -->
             <header class="main-header">
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="header-title">
-                    <h1>Painel de Controle</h1>
-                    <p id="current-date">Carregando...</p>
+                <div class="header-left">
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="header-title">
+                        <h1>Centro de Comando</h1>
+                        <p id="current-date">Carregando...</p>
+                    </div>
                 </div>
                 <div class="header-status">
                     <div class="status-badge">
                         <span class="status-dot"></span>
-                        <span>Sistema Online</span>
+                        <span>Sistemas Online</span>
                     </div>
-                    <span class="version-tag">v2.3</span>
+                    <span class="version-tag">v4.0</span>
                 </div>
             </header>
 
             <!-- Content -->
             <div class="content-area">
 
-                <!-- Quick Actions -->
-                <div class="section-title">Acesso Rapido</div>
-                <div class="quick-actions">
-                    <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="quick-btn">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                        <span>DRE Gerencial</span>
-                    </a>
-                    <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="quick-btn">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Performance Diaria</span>
-                    </a>
-                    <a href="https://bi.alsultan.tech/dashboard/12" target="_blank" class="quick-btn">
-                        <i class="fas fa-store"></i>
-                        <span>Franquias</span>
-                    </a>
-                    <a href="manuais/" class="quick-btn">
-                        <i class="fas fa-book"></i>
-                        <span>Ver Manuais</span>
-                    </a>
-                </div>
-
-                <!-- Infrastructure Status -->
-                <div class="infra-card">
-                    <div class="infra-header">
-                        <div class="infra-title">
-                            <i class="fas fa-server"></i>
-                            <span>Status da Infraestrutura</span>
+                <!-- SECTION: Dashboards BI -->
+                <section class="animate-in delay-1">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <h2>Dashboards BI</h2>
+                            <span class="section-badge">Metabase</span>
                         </div>
-                        <span class="infra-updated">Atualizado automaticamente</span>
+                        <a href="https://bi.alsultan.tech" target="_blank" class="section-link">
+                            Ver todos <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
-                    <div class="infra-grid">
-                        <div class="infra-item">
-                            <span class="infra-dot"></span>
-                            <div>
-                                <div class="infra-item-label">Data Lake</div>
-                                <div class="infra-item-value">Directus</div>
+
+                    <div class="dashboard-grid">
+                        <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="dashboard-card">
+                            <div class="dashboard-icon orange">
+                                <i class="fas fa-file-invoice-dollar"></i>
                             </div>
-                        </div>
-                        <div class="infra-item">
-                            <span class="infra-dot"></span>
-                            <div>
-                                <div class="infra-item-label">Automacao</div>
-                                <div class="infra-item-value">n8n</div>
+                            <div class="dashboard-title">DRE Gerencial</div>
+                            <div class="dashboard-desc">Demonstrativo de Resultado com margens e analise de custos</div>
+                            <i class="fas fa-arrow-right dashboard-arrow"></i>
+                        </a>
+
+                        <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="dashboard-card">
+                            <div class="dashboard-icon blue">
+                                <i class="fas fa-chart-line"></i>
                             </div>
-                        </div>
-                        <div class="infra-item">
-                            <span class="infra-dot"></span>
-                            <div>
-                                <div class="infra-item-label">BI</div>
-                                <div class="infra-item-value">Metabase</div>
+                            <div class="dashboard-title">Performance Diaria</div>
+                            <div class="dashboard-desc">KPIs do dia, vendas por hora e acompanhamento de metas</div>
+                            <i class="fas fa-arrow-right dashboard-arrow"></i>
+                        </a>
+
+                        <a href="https://bi.alsultan.tech/dashboard/12" target="_blank" class="dashboard-card">
+                            <div class="dashboard-icon purple">
+                                <i class="fas fa-store"></i>
                             </div>
-                        </div>
-                        <div class="infra-item">
-                            <span class="infra-dot"></span>
-                            <div>
-                                <div class="infra-item-label">Database</div>
-                                <div class="infra-item-value">PostgreSQL</div>
+                            <div class="dashboard-title">Franquias</div>
+                            <div class="dashboard-desc">Performance de franqueados e calculo de royalties</div>
+                            <i class="fas fa-arrow-right dashboard-arrow"></i>
+                        </a>
+
+                        <a href="https://bi.alsultan.tech/dashboard/5" target="_blank" class="dashboard-card">
+                            <div class="dashboard-icon green">
+                                <i class="fas fa-chart-bar"></i>
                             </div>
-                        </div>
-                        <div class="infra-item">
-                            <span class="infra-dot"></span>
-                            <div>
-                                <div class="infra-item-label">Cache</div>
-                                <div class="infra-item-value">Redis</div>
-                            </div>
-                        </div>
-                        <div class="infra-item">
-                            <span class="infra-dot"></span>
-                            <div>
-                                <div class="infra-item-label">Filas</div>
-                                <div class="infra-item-value">RabbitMQ</div>
-                            </div>
-                        </div>
-                        <div class="infra-item">
-                            <span class="infra-dot" style="animation: pulse 2s infinite;"></span>
-                            <div>
-                                <div class="infra-item-label">Pipeline</div>
-                                <div class="infra-item-value">Medallion</div>
-                            </div>
-                        </div>
+                            <div class="dashboard-title">Visao Geral</div>
+                            <div class="dashboard-desc">Painel consolidado com visao executiva de vendas</div>
+                            <i class="fas fa-arrow-right dashboard-arrow"></i>
+                        </a>
                     </div>
-                    <div class="infra-footer">
-                        <span><i class="fas fa-database"></i> 51 Collections</span>
-                        <span><i class="fas fa-cogs"></i> 31 Workflows</span>
-                        <span><i class="fas fa-clock"></i> Sync 3x/dia (07h, 15h, 22h)</span>
-                        <span><i class="fas fa-layer-group"></i> Bronze &rarr; Silver &rarr; Gold</span>
+                </section>
+
+                <!-- SECTION: Google Drive -->
+                <section class="animate-in delay-2">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <h2>Google Drive</h2>
+                            <span class="section-badge">Documentos</span>
+                        </div>
+                        <a href="https://drive.google.com/drive/folders/FOLDER_ROOT_ID" target="_blank" class="section-link">
+                            Abrir Drive <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
-                </div>
 
-                <!-- Dashboards & Docs -->
-                <div class="cards-grid">
+                    <div class="drive-grid">
+                        <a href="https://drive.google.com/drive/folders/FOLDER_FINANCEIRO_ID" target="_blank" class="drive-card">
+                            <div class="drive-icon financeiro">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="drive-content">
+                                <div class="drive-title">Financeiro</div>
+                                <div class="drive-desc">DREs, balancetes, conciliacoes</div>
+                            </div>
+                            <i class="fas fa-external-link-alt drive-arrow"></i>
+                        </a>
 
-                    <!-- Dashboards -->
-                    <div>
-                        <div class="section-title">Dashboards</div>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="action-card">
-                                <div class="action-icon orange">
-                                    <i class="fas fa-file-invoice-dollar"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">DRE Gerencial</div>
-                                    <div class="action-desc">Demonstrativo de Resultado com margens</div>
-                                </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
+                        <a href="https://drive.google.com/drive/folders/FOLDER_CONTRATOS_ID" target="_blank" class="drive-card">
+                            <div class="drive-icon contratos">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="drive-content">
+                                <div class="drive-title">Contratos</div>
+                                <div class="drive-desc">Franquias, fornecedores, parcerias</div>
+                            </div>
+                            <i class="fas fa-external-link-alt drive-arrow"></i>
+                        </a>
+
+                        <a href="https://drive.google.com/drive/folders/FOLDER_OPERACIONAL_ID" target="_blank" class="drive-card">
+                            <div class="drive-icon operacional">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="drive-content">
+                                <div class="drive-title">Operacional</div>
+                                <div class="drive-desc">Procedimentos, treinamentos</div>
+                            </div>
+                            <i class="fas fa-external-link-alt drive-arrow"></i>
+                        </a>
+
+                        <a href="https://drive.google.com/drive/folders/FOLDER_RELATORIOS_ID" target="_blank" class="drive-card">
+                            <div class="drive-icon relatorios">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="drive-content">
+                                <div class="drive-title">Relatorios</div>
+                                <div class="drive-desc">PDFs mensais, entregas aiBotize</div>
+                            </div>
+                            <i class="fas fa-external-link-alt drive-arrow"></i>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- SECTION: Stirling PDF -->
+                <section class="animate-in delay-3">
+                    <div class="pdf-section">
+                        <div class="pdf-icon-wrapper">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="pdf-content">
+                            <div class="pdf-title">Stirling PDF</div>
+                            <div class="pdf-desc">
+                                Ferramenta completa para manipulacao de PDFs. Converta, mescle, divida, comprima
+                                e edite documentos PDF diretamente no navegador.
+                            </div>
+                        </div>
+                        <div class="pdf-actions">
+                            <a href="https://pdf.alsultan.tech" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i>
+                                Abrir Ferramenta
                             </a>
-
-                            <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="action-card">
-                                <div class="action-icon blue">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Performance Diaria</div>
-                                    <div class="action-desc">KPIs do dia, vendas por hora e metas</div>
-                                </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
-                            </a>
-
-                            <a href="https://bi.alsultan.tech/dashboard/12" target="_blank" class="action-card">
-                                <div class="action-icon purple">
-                                    <i class="fas fa-store"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Franquias e Royalties</div>
-                                    <div class="action-desc">Performance e calculo de royalties</div>
-                                </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
-                            </a>
-
-                            <a href="https://bi.alsultan.tech/dashboard/5" target="_blank" class="action-card">
-                                <div class="action-icon green">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Visao Geral - Vendas</div>
-                                    <div class="action-desc">Painel principal com visao consolidada</div>
-                                </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
+                            <a href="https://pdf.alsultan.tech/swagger-ui/index.html" target="_blank" class="btn btn-secondary">
+                                <i class="fas fa-code"></i>
+                                API Docs
                             </a>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Documentation -->
-                    <div>
-                        <div class="section-title">Documentacao</div>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <a href="../bi/tutorials/MANUAL-GERAL-BI.html" target="_blank" class="action-card">
-                                <div class="action-icon gold">
-                                    <i class="fas fa-book"></i>
+                <!-- SECTION: Entregas aiBotize -->
+                <section class="animate-in delay-4">
+                    <div class="entregas-section">
+                        <div class="entregas-header">
+                            <div class="entregas-info">
+                                <div class="entregas-logo">
+                                    <i class="fas fa-robot"></i>
                                 </div>
-                                <div class="action-content">
-                                    <div class="action-title">Manual Geral BI</div>
-                                    <div class="action-desc">Guia completo para todos os usuarios</div>
+                                <div class="entregas-title-group">
+                                    <h3>Entregas aiBotize</h3>
+                                    <p>Relatorios mensais de prestacao de servicos</p>
                                 </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
+                            </div>
+                            <div class="sla-badge">
+                                <i class="fas fa-shield-check"></i>
+                                <span>SLA 98%</span>
+                            </div>
+                        </div>
+
+                        <div class="reports-grid">
+                            <a href="https://drive.google.com/file/d/RELATORIO_JAN_2026_ID" target="_blank" class="report-card current">
+                                <div class="report-badge">Atual</div>
+                                <div class="report-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="report-content">
+                                    <div class="report-title">Janeiro 2026</div>
+                                    <div class="report-meta">
+                                        <span><i class="fas fa-check-circle"></i> 12 entregas</span>
+                                        <span><i class="fas fa-clock"></i> 98% SLA</span>
+                                    </div>
+                                </div>
                             </a>
 
-                            <a href="../bi/tutorials/MANUAL-DIRETORIA-BI.html" target="_blank" class="action-card">
-                                <div class="action-icon purple">
-                                    <i class="fas fa-crown"></i>
+                            <a href="https://drive.google.com/file/d/RELATORIO_DEZ_2025_ID" target="_blank" class="report-card">
+                                <div class="report-icon">
+                                    <i class="fas fa-file-pdf"></i>
                                 </div>
-                                <div class="action-content">
-                                    <div class="action-title">Manual Diretoria</div>
-                                    <div class="action-desc">Visao executiva e indicadores estrategicos</div>
+                                <div class="report-content">
+                                    <div class="report-title">Dezembro 2025</div>
+                                    <div class="report-meta">
+                                        <span><i class="fas fa-check-circle"></i> 15 entregas</span>
+                                        <span><i class="fas fa-clock"></i> 100% SLA</span>
+                                    </div>
                                 </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
 
-                            <a href="../bi/tutorials/MANUAL-GERENTES-BI.html" target="_blank" class="action-card">
-                                <div class="action-icon teal">
-                                    <i class="fas fa-user-tie"></i>
+                            <a href="https://drive.google.com/file/d/RELATORIO_NOV_2025_ID" target="_blank" class="report-card">
+                                <div class="report-icon">
+                                    <i class="fas fa-file-pdf"></i>
                                 </div>
-                                <div class="action-content">
-                                    <div class="action-title">Manual Gerentes</div>
-                                    <div class="action-desc">Operacoes diarias e gestao de filial</div>
+                                <div class="report-content">
+                                    <div class="report-title">Novembro 2025</div>
+                                    <div class="report-meta">
+                                        <span><i class="fas fa-check-circle"></i> 10 entregas</span>
+                                        <span><i class="fas fa-clock"></i> 95% SLA</span>
+                                    </div>
                                 </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
-                            </a>
-
-                            <a href="../bi/tutorials/MANUAL-ANALISTAS-BI.html" target="_blank" class="action-card">
-                                <div class="action-icon blue">
-                                    <i class="fas fa-user-cog"></i>
-                                </div>
-                                <div class="action-content">
-                                    <div class="action-title">Manual Analistas</div>
-                                    <div class="action-desc">SQL, KPIs avancados e formulas</div>
-                                </div>
-                                <i class="fas fa-arrow-right action-arrow"></i>
                             </a>
                         </div>
+
+                        <!-- Timeline de Implementacoes -->
+                        <div class="timeline-section">
+                            <div class="timeline-title">Timeline de Implementacoes</div>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <span class="timeline-dot completed"></span>
+                                    <span class="timeline-text">Portal v4.0 - Concluido</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot completed"></span>
+                                    <span class="timeline-text">Dashboard DRE - Concluido</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot completed"></span>
+                                    <span class="timeline-text">Stirling PDF - Concluido</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot in-progress"></span>
+                                    <span class="timeline-text">Automacao RPA - Em andamento</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <span class="timeline-dot pending"></span>
+                                    <span class="timeline-text">App Mobile - Planejado</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </section>
 
-                </div>
-
-                <!-- Info Cards -->
+                <!-- SECTION: Info Cards -->
                 <div class="info-grid">
 
                     <!-- Filiais -->
@@ -1100,7 +1654,7 @@
                         </ul>
                     </div>
 
-                    <!-- Sync -->
+                    <!-- Sincronizacao -->
                     <div class="info-card">
                         <div class="info-card-header">
                             <div class="info-card-icon">
@@ -1115,20 +1669,20 @@
                             </li>
                             <li>
                                 <i class="fas fa-clock" style="color: var(--sultan-gold);"></i>
-                                <span>07h, 15h e 22h (Brasil)</span>
+                                <span>07h, 15h e 22h (Brasilia)</span>
                             </li>
                             <li>
-                                <i class="fas fa-check" style="color: var(--sultan-teal);"></i>
+                                <i class="fas fa-database" style="color: var(--sultan-teal);"></i>
                                 <span>Fonte: ERP Cloudfy</span>
                             </li>
                             <li>
                                 <i class="fas fa-layer-group" style="color: #9333ea;"></i>
-                                <span>Pipeline Medallion</span>
+                                <span>Pipeline Medallion (Bronze/Silver/Gold)</span>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- Support -->
+                    <!-- Suporte -->
                     <div class="info-card">
                         <div class="info-card-header">
                             <div class="info-card-icon">
@@ -1138,16 +1692,16 @@
                         </div>
                         <ul class="info-list">
                             <li>
-                                <i class="fas fa-envelope" style="color: var(--brown-light);"></i>
+                                <i class="fas fa-envelope" style="color: var(--text-muted);"></i>
                                 <span>suporte@aibotize.com</span>
                             </li>
                             <li>
                                 <i class="fab fa-whatsapp" style="color: var(--sultan-teal);"></i>
-                                <span>Chat no sistema</span>
+                                <span>Chat integrado no sistema</span>
                             </li>
                             <li>
-                                <i class="fas fa-ticket-alt" style="color: var(--brown-light);"></i>
-                                <a href="https://app.alsultan.tech" target="_blank">Abrir chamado</a>
+                                <i class="fas fa-ticket-alt" style="color: var(--sultan-orange);"></i>
+                                <a href="https://app.alsultan.tech" target="_blank">Abrir chamado de suporte</a>
                             </li>
                         </ul>
                     </div>
@@ -1158,7 +1712,7 @@
 
             <!-- Footer -->
             <footer class="main-footer">
-                <span>Al Sultan do Brasil | Centro de Comando v2.3</span>
+                <span>Al Sultan do Brasil | Centro de Comando v4.0</span>
                 <span>Desenvolvido por <a href="https://aibotize.com" target="_blank">aiBotize</a> | 2026</span>
             </footer>
 
@@ -1206,6 +1760,16 @@
             overlay.classList.toggle('active');
             document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
         }
+
+        // Handle keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
 
         // Init
         document.addEventListener('DOMContentLoaded', function() {

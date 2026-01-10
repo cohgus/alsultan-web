@@ -26,13 +26,15 @@
                 extend: {
                     colors: {
                         sultan: {
-                            dark: '#0a1a0a',
-                            green: '#0d2d0d',
-                            emerald: '#1a4d1a',
-                            gold: '#d4af37',
-                            goldLight: '#f0d77a',
-                            cream: '#faf8f5',
-                            sand: '#e8e4dc'
+                            dark: '#1a0a05',
+                            brown: '#2d1810',
+                            warmBrown: '#3d251a',
+                            orange: '#ea5512',
+                            gold: '#ffca07',
+                            goldLight: '#ffe066',
+                            cream: '#faf6f0',
+                            sand: '#f5f0e8',
+                            teal: '#0bb0a0'
                         }
                     },
                     fontFamily: {
@@ -46,43 +48,43 @@
 
     <style>
         body {
-            background: linear-gradient(180deg, #0a1a0a 0%, #0d2d0d 100%);
-            color: #faf8f5;
+            background: linear-gradient(180deg, #1a0a05 0%, #2d1810 100%);
+            color: #faf6f0;
             min-height: 100vh;
         }
 
         .glass-card {
-            background: rgba(13, 45, 13, 0.4);
+            background: rgba(45, 24, 16, 0.5);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(234, 85, 18, 0.15);
             transition: all 0.3s ease;
         }
 
         .glass-card:hover {
-            background: rgba(13, 45, 13, 0.6);
-            border-color: rgba(212, 175, 55, 0.3);
+            background: rgba(45, 24, 16, 0.7);
+            border-color: rgba(234, 85, 18, 0.3);
         }
 
         .manual-card {
-            background: linear-gradient(135deg, rgba(13, 45, 13, 0.5) 0%, rgba(10, 26, 10, 0.7) 100%);
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            background: linear-gradient(135deg, rgba(45, 24, 16, 0.6) 0%, rgba(26, 10, 5, 0.8) 100%);
+            border: 1px solid rgba(234, 85, 18, 0.15);
             transition: all 0.3s ease;
         }
 
         .manual-card:hover {
-            border-color: rgba(212, 175, 55, 0.4);
+            border-color: rgba(234, 85, 18, 0.4);
             transform: translateY(-4px);
-            box-shadow: 0 16px 48px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 16px 48px rgba(234, 85, 18, 0.15);
         }
 
         .decorative-line {
             height: 1px;
-            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            background: linear-gradient(90deg, transparent, #ea5512, transparent);
         }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a1a0a; }
-        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #1a0a05; }
+        ::-webkit-scrollbar-thumb { background: rgba(234, 85, 18, 0.3); border-radius: 4px; }
     </style>
 </head>
 <body class="antialiased font-sans">
@@ -99,7 +101,7 @@
     </script>
 
     <!-- HEADER -->
-    <header class="sticky top-0 z-10 bg-sultan-dark/80 backdrop-blur-lg border-b border-sultan-gold/10 px-6 py-4">
+    <header class="sticky top-0 z-10 bg-sultan-brown/80 backdrop-blur-lg border-b border-sultan-orange/10 px-6 py-4">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <a href="../index.html" class="flex items-center gap-2 text-sultan-cream/60 hover:text-sultan-cream transition-colors">
@@ -108,8 +110,8 @@
                 </a>
                 <span class="text-sultan-cream/30">|</span>
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-sultan-gold/20 flex items-center justify-center">
-                        <i class="fas fa-book text-sultan-gold text-sm"></i>
+                    <div class="w-8 h-8 rounded-lg bg-sultan-orange/20 flex items-center justify-center">
+                        <i class="fas fa-book text-sultan-orange text-sm"></i>
                     </div>
                     <div>
                         <div class="font-display text-lg font-bold text-sultan-cream">Manuais</div>
@@ -145,16 +147,16 @@
             <a href="../../bi/tutorials/MANUAL-GERAL-BI.html" target="_blank"
                class="manual-card p-8 rounded-2xl block group">
                 <div class="flex items-start gap-5">
-                    <div class="w-16 h-16 rounded-xl bg-sultan-gold/20 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-book text-sultan-gold text-2xl"></i>
+                    <div class="w-16 h-16 rounded-xl bg-sultan-orange/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-book text-sultan-orange text-2xl"></i>
                     </div>
                     <div class="flex-1">
                         <div class="flex items-center gap-2 mb-2">
-                            <span class="px-2 py-0.5 rounded-full bg-sultan-gold/20 text-sultan-gold text-[10px] uppercase tracking-wider">
+                            <span class="px-2 py-0.5 rounded-full bg-sultan-orange/20 text-sultan-orange text-[10px] uppercase tracking-wider">
                                 Para Todos
                             </span>
                         </div>
-                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-orange transition-colors">
                             Manual Geral BI
                         </h3>
                         <p class="text-sm text-sultan-cream/60 mb-4">
@@ -167,9 +169,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                <div class="mt-6 pt-4 border-t border-sultan-orange/10 flex items-center justify-between">
                     <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
-                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                    <span class="text-sultan-orange text-sm font-medium flex items-center gap-2">
                         Abrir Manual
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </span>
@@ -189,7 +191,7 @@
                                 Diretoria
                             </span>
                         </div>
-                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-orange transition-colors">
                             Manual Diretoria
                         </h3>
                         <p class="text-sm text-sultan-cream/60 mb-4">
@@ -202,9 +204,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                <div class="mt-6 pt-4 border-t border-sultan-orange/10 flex items-center justify-between">
                     <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
-                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                    <span class="text-sultan-orange text-sm font-medium flex items-center gap-2">
                         Abrir Manual
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </span>
@@ -224,7 +226,7 @@
                                 Gerentes
                             </span>
                         </div>
-                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-orange transition-colors">
                             Manual Gerentes
                         </h3>
                         <p class="text-sm text-sultan-cream/60 mb-4">
@@ -237,9 +239,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                <div class="mt-6 pt-4 border-t border-sultan-orange/10 flex items-center justify-between">
                     <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
-                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                    <span class="text-sultan-orange text-sm font-medium flex items-center gap-2">
                         Abrir Manual
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </span>
@@ -259,7 +261,7 @@
                                 Analistas
                             </span>
                         </div>
-                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-gold transition-colors">
+                        <h3 class="font-display text-xl font-bold text-sultan-cream mb-2 group-hover:text-sultan-orange transition-colors">
                             Manual Analistas
                         </h3>
                         <p class="text-sm text-sultan-cream/60 mb-4">
@@ -272,9 +274,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 pt-4 border-t border-sultan-gold/10 flex items-center justify-between">
+                <div class="mt-6 pt-4 border-t border-sultan-orange/10 flex items-center justify-between">
                     <span class="text-sm text-sultan-cream/50">Versao 3.0</span>
-                    <span class="text-sultan-gold text-sm font-medium flex items-center gap-2">
+                    <span class="text-sultan-orange text-sm font-medium flex items-center gap-2">
                         Abrir Manual
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </span>
@@ -291,8 +293,8 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                 <div class="glass-card p-5 rounded-xl text-center">
-                    <div class="w-12 h-12 rounded-lg bg-sultan-gold/20 flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-print text-sultan-gold"></i>
+                    <div class="w-12 h-12 rounded-lg bg-sultan-orange/20 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-print text-sultan-orange"></i>
                     </div>
                     <h3 class="font-medium text-sultan-cream mb-2">Imprimir Manual</h3>
                     <p class="text-xs text-sultan-cream/50">
@@ -301,8 +303,8 @@
                 </div>
 
                 <div class="glass-card p-5 rounded-xl text-center">
-                    <div class="w-12 h-12 rounded-lg bg-sultan-gold/20 flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-video text-sultan-gold"></i>
+                    <div class="w-12 h-12 rounded-lg bg-sultan-orange/20 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-video text-sultan-orange"></i>
                     </div>
                     <h3 class="font-medium text-sultan-cream mb-2">Videos Tutoriais</h3>
                     <p class="text-xs text-sultan-cream/50">
@@ -311,8 +313,8 @@
                 </div>
 
                 <div class="glass-card p-5 rounded-xl text-center">
-                    <div class="w-12 h-12 rounded-lg bg-sultan-gold/20 flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-question-circle text-sultan-gold"></i>
+                    <div class="w-12 h-12 rounded-lg bg-sultan-orange/20 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-question-circle text-sultan-orange"></i>
                     </div>
                     <h3 class="font-medium text-sultan-cream mb-2">Suporte</h3>
                     <p class="text-xs text-sultan-cream/50">
@@ -326,7 +328,7 @@
         <!-- QUICK INFO -->
         <section class="glass-card p-6 rounded-2xl">
             <div class="flex items-center gap-3 mb-4">
-                <i class="fas fa-info-circle text-sultan-gold"></i>
+                <i class="fas fa-info-circle text-sultan-orange"></i>
                 <h3 class="font-medium text-sultan-cream">Sobre os Manuais</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-sultan-cream/70">
@@ -342,9 +344,9 @@
                 <div>
                     <h4 class="font-medium text-sultan-cream mb-2">Atualizacoes</h4>
                     <ul class="space-y-1">
-                        <li><i class="fas fa-calendar text-sultan-gold text-xs mr-2"></i>Ultima atualizacao: Janeiro 2025</li>
-                        <li><i class="fas fa-tag text-sultan-gold text-xs mr-2"></i>Versao atual: 3.0</li>
-                        <li><i class="fas fa-sync text-sultan-gold text-xs mr-2"></i>Manuais atualizados mensalmente</li>
+                        <li><i class="fas fa-calendar text-sultan-orange text-xs mr-2"></i>Ultima atualizacao: Janeiro 2026</li>
+                        <li><i class="fas fa-tag text-sultan-orange text-xs mr-2"></i>Versao atual: 3.0</li>
+                        <li><i class="fas fa-sync text-sultan-orange text-xs mr-2"></i>Manuais atualizados mensalmente</li>
                     </ul>
                 </div>
             </div>
@@ -353,10 +355,10 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t border-sultan-gold/10 mt-16 py-6 px-6">
+    <footer class="border-t border-sultan-orange/10 mt-16 py-6 px-6">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-sultan-cream/40">
             <span>Al Sultan do Brasil | Central de Documentacao</span>
-            <span>Desenvolvido por aiBotize | 2025</span>
+            <span>Desenvolvido por aiBotize | 2026</span>
         </div>
     </footer>
 

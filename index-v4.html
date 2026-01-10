@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Sultan | Centro de Comando</title>
+    <meta name="description" content="Centro de Comando Al Sultan - Exageradamente Gostoso">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%AE%3C/text%3E%3C/svg%3E">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Config -->
+    <script src="assets/js/config.js"></script>
+
+    <style>
+        /* ================================================================
+           AL SULTAN CENTRO DE COMANDO - REDESIGN V4.0
+           Design Document: specs/design/redesign-v4.md
+           ================================================================ */
+
+        :root {
+            /* ========== BRAND COLORS ========== */
+            --sultan-orange: #ea5512;
+            --sultan-orange-dark: #c94510;
+            --sultan-orange-light: #ff6b2c;
+            --sultan-orange-glow: rgba(234, 85, 18, 0.15);
+
+            --sultan-gold: #ffca07;
+            --sultan-gold-dark: #d4a000;
+            --sultan-gold-light: #ffe066;
+            --sultan-gold-glow: rgba(255, 202, 7, 0.2);
+
+            --sultan-teal: #0bb0a0;
+            --sultan-teal-dark: #088f82;
+            --sultan-teal-light: #3dd4c4;
+            --sultan-teal-glow: rgba(11, 176, 160, 0.15);
+
+            --sultan-red: #e5123c;
+
+            /* ========== SURFACE COLORS ========== */
+            --surface-cream: #faf6f0;
+            --surface-sand: #f5ebe0;
+            --surface-sand-dark: #e6d5c3;
+            --surface-white: #fff8f0;
+            --surface-dark: #1a0a05;
+            --surface-brown: #2d1810;
+            --surface-warm-brown: #3d251a;
+
+            /* ========== TEXT COLORS ========== */
+            --text-primary: #2d1810;
+            --text-secondary: #5c3d2e;
+            --text-muted: #8b6b5a;
+            --text-inverse: #faf6f0;
+
+            /* ========== GRADIENTS ========== */
+            --gradient-hero: linear-gradient(135deg, #ff6b2c 0%, #ea5512 35%, #c94510 70%, #2d1810 100%);
+            --gradient-sunset: linear-gradient(135deg, #ea5512 0%, #ffca07 100%);
+            --gradient-warm-glass: linear-gradient(135deg, rgba(234, 85, 18, 0.08) 0%, rgba(255, 202, 7, 0.05) 100%);
+            --gradient-sidebar: linear-gradient(180deg, #1a0a05 0%, #2d1810 50%, #3d251a 100%);
+            --gradient-sand: linear-gradient(180deg, #faf6f0 0%, #f5ebe0 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--surface-cream);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ========== SKIP LINK (Acessibilidade) ========== */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .skip-link:focus {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            width: auto;
+            height: auto;
+            padding: 1rem 2rem;
+            background: var(--sultan-orange);
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            z-index: 9999;
+            text-decoration: none;
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero-section {
+            position: relative;
+            min-height: 240px;
+            background: var(--gradient-hero);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 2.5rem 2rem;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M30 0l30 30-30 30L0 30zM30 8l22 22-22 22L8 30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: patternFloat 40s linear infinite;
+            pointer-events: none;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,202,7,0.15) 0%, transparent 70%);
+            top: -200px;
+            right: -150px;
+            pointer-events: none;
+        }
+
+        @keyframes patternFloat {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .hero-branding {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .hero-logo {
+            width: 72px;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            animation: logoFloat 4s ease-in-out infinite;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero-text p {
+            font-size: 0.9rem;
+            color: var(--sultan-gold);
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .hero-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem 0.5rem 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-sunset);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            color: white;
+        }
+
+        .user-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            color: var(--sultan-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: rgba(11, 176, 160, 0.2);
+            border: 1px solid rgba(11, 176, 160, 0.3);
+            border-radius: 50px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--sultan-teal);
+            border-radius: 50%;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            box-shadow: 0 0 8px var(--sultan-teal);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.95); }
+        }
+
+        .logout-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(229, 18, 60, 0.3);
+            border-color: rgba(229, 18, 60, 0.5);
+            color: white;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ========== QUICK ACTIONS ========== */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .quick-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: var(--surface-white);
+            border: 1px solid var(--surface-sand-dark);
+            border-radius: 50px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .quick-btn:hover {
+            border-color: var(--sultan-orange);
+            box-shadow: 0 4px 15px var(--sultan-orange-glow);
+            transform: translateY(-2px);
+        }
+
+        .quick-btn i {
+            color: var(--sultan-orange);
+            font-size: 0.9rem;
+        }
+
+        /* ========== SECTION HEADERS ========== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-sunset);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px var(--sultan-orange-glow);
+        }
+
+        .section-action {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--sultan-teal);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .section-action:hover {
+            color: var(--sultan-orange);
+        }
+
+        .section-action:hover i {
+            transform: translateX(3px);
+        }
+
+        .section-action i {
+            font-size: 0.7rem;
+            transition: transform 0.2s ease;
+        }
+
+        /* ========== DASHBOARD CARDS ========== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .dashboard-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--surface-white);
+            border: 1px solid var(--surface-sand-dark);
+            border-radius: 14px;
+            text-decoration: none;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-sunset);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            border-color: var(--sultan-orange);
+            box-shadow: 0 8px 25px var(--sultan-orange-glow);
+            transform: translateY(-3px);
+        }
+
+        .dashboard-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .dashboard-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover .dashboard-icon {
+            transform: scale(1.1);
+        }
+
+        .dashboard-icon.orange {
+            background: linear-gradient(135deg, rgba(234, 85, 18, 0.15) 0%, rgba(234, 85, 18, 0.25) 100%);
+            color: var(--sultan-orange);
+        }
+
+        .dashboard-icon.blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.25) 100%);
+            color: #3b82f6;
+        }
+
+        .dashboard-icon.purple {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0.25) 100%);
+            color: #8b5cf6;
+        }
+
+        .dashboard-icon.teal {
+            background: linear-gradient(135deg, rgba(11, 176, 160, 0.15) 0%, rgba(11, 176, 160, 0.25) 100%);
+            color: var(--sultan-teal);
+        }
+
+        .dashboard-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dashboard-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .dashboard-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.3;
+        }
+
+        .dashboard-arrow {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--surface-sand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .dashboard-card:hover .dashboard-arrow {
+            background: var(--sultan-orange);
+            color: white;
+            transform: translateX(3px);
+        }
+
+        /* ========== DRIVE SECTION ========== */
+        .drive-section {
+            background: var(--gradient-warm-glass);
+            border: 1px solid var(--sultan-orange-glow);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .drive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .drive-card {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 1rem;
+            background: var(--surface-white);
+            border: 1px solid var(--surface-sand-dark);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .drive-card:hover {
+            border-color: var(--sultan-gold);
+            box-shadow: 0 5px 18px var(--sultan-gold-glow);
+            transform: translateY(-2px);
+        }
+
+        .drive-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .drive-icon.financeiro {
+            background: linear-gradient(135deg, #4285f4 0%, #1a73e8 100%);
+        }
+
+        .drive-icon.contratos {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .drive-icon.operacional {
+            background: linear-gradient(135deg, var(--sultan-teal) 0%, #088f82 100%);
+        }
+
+        .drive-info h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .drive-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .drive-arrow {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            transition: all 0.2s ease;
+        }
+
+        .drive-card:hover .drive-arrow {
+            color: var(--sultan-gold);
+            transform: translateX(3px);
+        }
+
+        /* ========== REPORTS SECTION ========== */
+        .reports-section {
+            background: var(--surface-white);
+            border: 1px solid var(--surface-sand-dark);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reports-section::before {
+            content: '';
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--sultan-teal-glow);
+            top: -90px;
+            right: -90px;
+            pointer-events: none;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .report-card {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.875rem;
+            padding: 1rem;
+            background: var(--surface-cream);
+            border: 1px solid transparent;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .report-card:hover {
+            background: var(--surface-white);
+            border-color: var(--sultan-teal);
+            box-shadow: 0 5px 18px var(--sultan-teal-glow);
+        }
+
+        .report-card.current {
+            border-color: var(--sultan-teal);
+            background: linear-gradient(135deg, rgba(11, 176, 160, 0.05) 0%, rgba(11, 176, 160, 0.1) 100%);
+        }
+
+        .report-badge {
+            position: absolute;
+            top: -7px;
+            right: 10px;
+            padding: 3px 10px;
+            background: var(--sultan-teal);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 20px;
+            box-shadow: 0 3px 8px var(--sultan-teal-glow);
+        }
+
+        .report-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(234, 85, 18, 0.1) 0%, rgba(234, 85, 18, 0.2) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sultan-orange);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .report-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.35rem;
+        }
+
+        .report-meta {
+            display: flex;
+            gap: 0.875rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .report-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .report-meta i {
+            color: var(--sultan-teal);
+            font-size: 0.6rem;
+        }
+
+        /* ========== DELIVERIES SECTION ========== */
+        .deliveries-section {
+            background: linear-gradient(135deg, var(--surface-brown) 0%, var(--surface-dark) 100%);
+            border: 1px solid rgba(234, 85, 18, 0.2);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-inverse);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deliveries-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ea5512' fill-opacity='0.05'%3E%3Cpath d='M20 0l20 20-20 20L0 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .deliveries-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .deliveries-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .deliveries-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .deliveries-header h2 .aibotize-logo {
+            background: var(--sultan-gold);
+            color: var(--surface-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .deliveries-action {
+            color: var(--sultan-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+
+        .deliveries-action:hover {
+            color: var(--sultan-gold-light);
+        }
+
+        .deliveries-action i {
+            font-size: 0.7rem;
+        }
+
+        .delivery-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.875rem;
+        }
+
+        .delivery-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--sultan-gold-glow);
+        }
+
+        .delivery-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            background: var(--gradient-sunset);
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .delivery-date .day {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .delivery-date .month {
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .delivery-info {
+            flex: 1;
+        }
+
+        .delivery-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.15rem;
+        }
+
+        .delivery-info p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .delivery-status {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.875rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .delivery-status.complete {
+            background: rgba(11, 176, 160, 0.2);
+            border: 1px solid rgba(11, 176, 160, 0.3);
+            color: var(--sultan-teal-light);
+        }
+
+        .delivery-status.pending {
+            background: rgba(255, 202, 7, 0.2);
+            border: 1px solid rgba(255, 202, 7, 0.3);
+            color: var(--sultan-gold-light);
+        }
+
+        .delivery-status i {
+            font-size: 0.65rem;
+        }
+
+        /* ========== SUPPORT SECTION ========== */
+        .support-section {
+            background: var(--surface-white);
+            border: 1px solid var(--surface-sand-dark);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .support-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: var(--gradient-warm-glass);
+            border: 1px solid var(--sultan-orange-glow);
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .support-card:hover {
+            border-color: var(--sultan-orange);
+            box-shadow: 0 6px 22px var(--sultan-orange-glow);
+            transform: translateY(-3px);
+        }
+
+        .support-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-sunset);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            color: white;
+            margin-bottom: 0.875rem;
+            box-shadow: 0 6px 16px var(--sultan-orange-glow);
+        }
+
+        .support-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.35rem;
+        }
+
+        .support-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========== INFO CARDS ========== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--surface-white);
+            border: 1px solid var(--surface-sand-dark);
+            border-radius: 14px;
+            padding: 1.25rem;
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .info-card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--gradient-sunset);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .info-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--surface-sand);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list li i {
+            font-size: 0.6rem;
+            width: 14px;
+        }
+
+        .info-list a {
+            color: var(--sultan-orange);
+            text-decoration: none;
+        }
+
+        .info-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer-premium {
+            background: linear-gradient(180deg, var(--surface-cream) 0%, var(--surface-sand) 100%);
+            border-top: 1px solid var(--sultan-gold-glow);
+            padding: 1.5rem 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        .footer-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-sunset);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .footer-text h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .footer-text p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .footer-credits {
+            text-align: right;
+        }
+
+        .footer-credits p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-credits a {
+            color: var(--sultan-teal);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-credits a:hover {
+            color: var(--sultan-orange);
+        }
+
+        .version-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            padding: 0.2rem 0.6rem;
+            background: var(--sultan-orange-glow);
+            color: var(--sultan-orange);
+            font-size: 0.65rem;
+            font-weight: 600;
+            border-radius: 20px;
+            margin-top: 0.35rem;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .stagger-1 { animation-delay: 0.05s; opacity: 0; }
+        .stagger-2 { animation-delay: 0.1s; opacity: 0; }
+        .stagger-3 { animation-delay: 0.15s; opacity: 0; }
+        .stagger-4 { animation-delay: 0.2s; opacity: 0; }
+        .stagger-5 { animation-delay: 0.25s; opacity: 0; }
+
+        /* ========== FOCUS STATES ========== */
+        :focus-visible {
+            outline: 2px solid var(--sultan-orange);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface-cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface-sand-dark);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .drive-grid,
+            .reports-grid,
+            .support-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-right {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 180px;
+                padding: 1.5rem 1rem;
+            }
+
+            .hero-logo {
+                width: 56px;
+                height: 56px;
+                font-size: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-text p {
+                font-size: 0.75rem;
+                letter-spacing: 2px;
+            }
+
+            .main-content {
+                padding: 1.25rem;
+            }
+
+            .dashboard-grid,
+            .drive-grid,
+            .reports-grid,
+            .support-grid,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+            }
+
+            .quick-btn {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .footer-brand {
+                flex-direction: column;
+            }
+
+            .footer-credits {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">Pular para o conteudo principal</a>
+
+    <!-- Auth Check -->
+    <script>
+        (function() {
+            const user = localStorage.getItem('alsultan_user');
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const userData = JSON.parse(user);
+            const loginTime = new Date(userData.loginTime);
+            const now = new Date();
+            const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+            if (hoursDiff >= 24) {
+                localStorage.removeItem('alsultan_user');
+                window.location.href = 'login.html';
+            }
+        })();
+    </script>
+
+    <!-- ========== HERO SECTION ========== -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <div class="hero-branding">
+                <div class="hero-logo" aria-label="Al Sultan Logo">
+                    <span>&#127790;</span>
+                </div>
+                <div class="hero-text">
+                    <h1>AL SULTAN</h1>
+                    <p>Centro de Comando</p>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="hero-user">
+                    <div class="user-avatar" id="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" id="user-name">Usuario</div>
+                        <div class="user-role" id="user-role">Carregando...</div>
+                    </div>
+                </div>
+
+                <div class="status-badge" role="status" aria-live="polite">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span>Online</span>
+                </div>
+
+                <button class="logout-btn" onclick="logout()" title="Sair" aria-label="Sair do sistema">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="main-content" class="main-content">
+
+        <!-- Quick Actions -->
+        <div class="quick-actions animate-fade-in">
+            <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="quick-btn">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>DRE Gerencial</span>
+            </a>
+            <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="quick-btn">
+                <i class="fas fa-chart-line"></i>
+                <span>Performance</span>
+            </a>
+            <a href="https://bi.alsultan.tech/dashboard/12" target="_blank" class="quick-btn">
+                <i class="fas fa-store"></i>
+                <span>Franquias</span>
+            </a>
+            <a href="manuais/" class="quick-btn">
+                <i class="fas fa-book"></i>
+                <span>Manuais</span>
+            </a>
+        </div>
+
+        <!-- Dashboards BI Section -->
+        <section aria-labelledby="dashboards-title" class="animate-fade-in stagger-1">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h2 id="dashboards-title">Dashboards BI</h2>
+                </div>
+                <a href="https://bi.alsultan.tech" target="_blank" class="section-action">
+                    Ver todos <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="dashboard-grid">
+                <a href="https://bi.alsultan.tech/dashboard/10" target="_blank" class="dashboard-card">
+                    <div class="dashboard-icon orange">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="dashboard-content">
+                        <div class="dashboard-title">DRE Gerencial</div>
+                        <div class="dashboard-desc">Demonstrativo de Resultado com margens</div>
+                    </div>
+                    <div class="dashboard-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <a href="https://bi.alsultan.tech/dashboard/11" target="_blank" class="dashboard-card">
+                    <div class="dashboard-icon blue">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="dashboard-content">
+                        <div class="dashboard-title">Performance Diaria</div>
+                        <div class="dashboard-desc">KPIs do dia, vendas por hora e metas</div>
+                    </div>
+                    <div class="dashboard-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <a href="https://bi.alsultan.tech/dashboard/12" target="_blank" class="dashboard-card">
+                    <div class="dashboard-icon purple">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="dashboard-content">
+                        <div class="dashboard-title">Franquias e Royalties</div>
+                        <div class="dashboard-desc">Performance e calculo de royalties</div>
+                    </div>
+                    <div class="dashboard-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <a href="https://bi.alsultan.tech/dashboard/5" target="_blank" class="dashboard-card">
+                    <div class="dashboard-icon teal">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="dashboard-content">
+                        <div class="dashboard-title">Visao Geral - Vendas</div>
+                        <div class="dashboard-desc">Painel principal com visao consolidada</div>
+                    </div>
+                    <div class="dashboard-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Google Drive Section -->
+        <section aria-labelledby="drive-title" class="drive-section animate-fade-in stagger-2">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon" style="background: #4285f4;">
+                        <i class="fab fa-google-drive"></i>
+                    </div>
+                    <h2 id="drive-title">Google Drive</h2>
+                </div>
+                <a href="https://drive.google.com/drive/folders/FOLDER_ROOT_ID" target="_blank" class="section-action">
+                    Abrir Drive <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+
+            <div class="drive-grid">
+                <a href="https://drive.google.com/drive/folders/FOLDER_FINANCEIRO_ID" target="_blank" class="drive-card">
+                    <div class="drive-icon financeiro">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="drive-info">
+                        <h3>Financeiro</h3>
+                        <p>DREs, balancetes, conciliacoes</p>
+                    </div>
+                    <i class="fas fa-external-link-alt drive-arrow"></i>
+                </a>
+
+                <a href="https://drive.google.com/drive/folders/FOLDER_CONTRATOS_ID" target="_blank" class="drive-card">
+                    <div class="drive-icon contratos">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <div class="drive-info">
+                        <h3>Contratos</h3>
+                        <p>Franquias, fornecedores, parcerias</p>
+                    </div>
+                    <i class="fas fa-external-link-alt drive-arrow"></i>
+                </a>
+
+                <a href="https://drive.google.com/drive/folders/FOLDER_OPERACIONAL_ID" target="_blank" class="drive-card">
+                    <div class="drive-icon operacional">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="drive-info">
+                        <h3>Operacional</h3>
+                        <p>Procedimentos, checklists</p>
+                    </div>
+                    <i class="fas fa-external-link-alt drive-arrow"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Reports PDF Section -->
+        <section aria-labelledby="reports-title" class="reports-section animate-fade-in stagger-3">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon" style="background: linear-gradient(135deg, var(--sultan-teal) 0%, #088f82 100%);">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h2 id="reports-title">Relatorios de Prestacao de Servicos</h2>
+                </div>
+                <a href="https://drive.google.com/drive/folders/FOLDER_RELATORIOS_ID" target="_blank" class="section-action">
+                    Ver todos <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="reports-grid">
+                <a href="https://drive.google.com/file/d/RELATORIO_JAN_2026_ID" target="_blank" class="report-card current">
+                    <div class="report-badge">Atual</div>
+                    <div class="report-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="report-content">
+                        <h4>Janeiro 2026</h4>
+                        <div class="report-meta">
+                            <span><i class="fas fa-check-circle"></i> 12 entregas</span>
+                            <span><i class="fas fa-clock"></i> 98% SLA</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://drive.google.com/file/d/RELATORIO_DEZ_2025_ID" target="_blank" class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="report-content">
+                        <h4>Dezembro 2025</h4>
+                        <div class="report-meta">
+                            <span><i class="fas fa-check-circle"></i> 15 entregas</span>
+                            <span><i class="fas fa-clock"></i> 100% SLA</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://drive.google.com/file/d/RELATORIO_NOV_2025_ID" target="_blank" class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="report-content">
+                        <h4>Novembro 2025</h4>
+                        <div class="report-meta">
+                            <span><i class="fas fa-check-circle"></i> 10 entregas</span>
+                            <span><i class="fas fa-clock"></i> 95% SLA</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- aiBotize Deliveries Section -->
+        <section aria-labelledby="deliveries-title" class="deliveries-section animate-fade-in stagger-4">
+            <div class="deliveries-content">
+                <div class="deliveries-header">
+                    <h2 id="deliveries-title">
+                        Entregas <span class="aibotize-logo">aiBotize</span>
+                    </h2>
+                    <a href="https://app.alsultan.tech" target="_blank" class="deliveries-action">
+                        Ver timeline completa <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+                <div class="delivery-timeline">
+                    <div class="delivery-item">
+                        <div class="delivery-date">
+                            <span class="day">08</span>
+                            <span class="month">Jan</span>
+                        </div>
+                        <div class="delivery-info">
+                            <h4>Dashboard Performance v2.0</h4>
+                            <p>Nova versao com metricas de horario de pico</p>
+                        </div>
+                        <div class="delivery-status complete">
+                            <i class="fas fa-check"></i>
+                            Entregue
+                        </div>
+                    </div>
+
+                    <div class="delivery-item">
+                        <div class="delivery-date">
+                            <span class="day">05</span>
+                            <span class="month">Jan</span>
+                        </div>
+                        <div class="delivery-info">
+                            <h4>Relatorio de Royalties Automatizado</h4>
+                            <p>Calculo automatico mensal para franquias</p>
+                        </div>
+                        <div class="delivery-status complete">
+                            <i class="fas fa-check"></i>
+                            Entregue
+                        </div>
+                    </div>
+
+                    <div class="delivery-item">
+                        <div class="delivery-date">
+                            <span class="day">15</span>
+                            <span class="month">Jan</span>
+                        </div>
+                        <div class="delivery-info">
+                            <h4>Integracao iFood Analytics</h4>
+                            <p>Metricas de delivery em tempo real</p>
+                        </div>
+                        <div class="delivery-status pending">
+                            <i class="fas fa-clock"></i>
+                            Em desenvolvimento
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section aria-labelledby="support-title" class="support-section animate-fade-in stagger-5">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h2 id="support-title">Suporte Tecnico</h2>
+                </div>
+            </div>
+
+            <div class="support-grid">
+                <a href="https://app.alsultan.tech" target="_blank" class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>Abrir Chamado</h3>
+                    <p>Solicite suporte tecnico</p>
+                </a>
+
+                <a href="mailto:suporte@aibotize.com" class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>E-mail</h3>
+                    <p>suporte@aibotize.com</p>
+                </a>
+
+                <a href="manuais/" class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>Documentacao</h3>
+                    <p>Manuais e tutoriais</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Info Cards -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-card-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-card-title">Filiais Conectadas</div>
+                </div>
+                <ul class="info-list">
+                    <li>
+                        <i class="fas fa-circle" style="color: var(--sultan-teal);"></i>
+                        <span>Juveve (Propria)</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-circle" style="color: var(--sultan-teal);"></i>
+                        <span>Agua Verde (Propria)</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-circle" style="color: #3b82f6;"></i>
+                        <span>SJP (Franquia)</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-circle" style="color: #3b82f6;"></i>
+                        <span>Ponta Grossa (Franquia)</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-circle" style="color: #3b82f6;"></i>
+                        <span>Bonfiglioli (Franquia)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-card-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="info-card-title">Sincronizacao</div>
+                </div>
+                <ul class="info-list">
+                    <li>
+                        <i class="fas fa-check" style="color: var(--sultan-teal);"></i>
+                        <span>Dados sincronizados 3x ao dia</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock" style="color: var(--sultan-gold);"></i>
+                        <span>07h, 15h e 22h (Brasil)</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-database" style="color: var(--sultan-teal);"></i>
+                        <span>Fonte: ERP Cloudfy</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-layer-group" style="color: #8b5cf6;"></i>
+                        <span>Pipeline Medallion</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-card-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="info-card-title">Manuais</div>
+                </div>
+                <ul class="info-list">
+                    <li>
+                        <i class="fas fa-users" style="color: var(--sultan-gold);"></i>
+                        <a href="../bi/tutorials/MANUAL-GERAL-BI.html" target="_blank">Manual Geral BI</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-crown" style="color: var(--sultan-orange);"></i>
+                        <a href="../bi/tutorials/MANUAL-DIRETORIA-BI.html" target="_blank">Manual Diretoria</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-tie" style="color: var(--sultan-teal);"></i>
+                        <a href="../bi/tutorials/MANUAL-GERENTES-BI.html" target="_blank">Manual Gerentes</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-cog" style="color: #3b82f6;"></i>
+                        <a href="../bi/tutorials/MANUAL-ANALISTAS-BI.html" target="_blank">Manual Analistas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer-premium">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <span>&#127790;</span>
+                </div>
+                <div class="footer-text">
+                    <h4>Al Sultan do Brasil</h4>
+                    <p>Exageradamente Gostoso</p>
+                </div>
+            </div>
+            <div class="footer-credits">
+                <p>Centro de Comando v4.0</p>
+                <p>Desenvolvido por <a href="https://aibotize.com" target="_blank">aiBotize</a></p>
+                <div class="version-tag">
+                    <i class="fas fa-code-branch"></i>
+                    v4.0
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== USER INFO ==========
+        function loadUserInfo() {
+            const userData = JSON.parse(localStorage.getItem('alsultan_user') || '{}');
+
+            document.getElementById('user-name').textContent = userData.name || 'Usuario';
+            document.getElementById('user-role').textContent = userData.groupName || userData.role || 'Usuario';
+
+            if (userData.picture) {
+                const avatar = document.getElementById('user-avatar');
+                avatar.innerHTML = '<img src="' + userData.picture + '" alt="Avatar">';
+            }
+
+            if (userData.isDemo) {
+                document.getElementById('user-name').textContent = 'Modo Demo';
+                document.getElementById('user-role').textContent = 'Acesso limitado';
+            }
+        }
+
+        // ========== LOGOUT ==========
+        function logout() {
+            localStorage.removeItem('alsultan_user');
+            window.location.href = 'login.html';
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+        });
+    </script>
+</body>
+</html>
